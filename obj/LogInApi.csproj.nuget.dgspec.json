@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Administrador\\Downloads\\mentoring\\LogInApi\\LogInApi.csproj": {}
+    "c:\\Users\\Administrador\\Downloads\\mentoring\\LogInApi\\LogInApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Administrador\\Downloads\\mentoring\\LogInApi\\LogInApi.csproj": {
+    "c:\\Users\\Administrador\\Downloads\\mentoring\\LogInApi\\LogInApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Administrador\\Downloads\\mentoring\\LogInApi\\LogInApi.csproj",
+        "projectUniqueName": "c:\\Users\\Administrador\\Downloads\\mentoring\\LogInApi\\LogInApi.csproj",
         "projectName": "LogInApi",
-        "projectPath": "C:\\Users\\Administrador\\Downloads\\mentoring\\LogInApi\\LogInApi.csproj",
+        "projectPath": "c:\\Users\\Administrador\\Downloads\\mentoring\\LogInApi\\LogInApi.csproj",
         "packagesPath": "C:\\Users\\Administrador\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Administrador\\Downloads\\mentoring\\LogInApi\\obj\\",
+        "outputPath": "c:\\Users\\Administrador\\Downloads\\mentoring\\LogInApi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
@@ -25,7 +25,6 @@
           "net5.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -44,9 +43,37 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.13, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[5.0.13, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[5.0.13, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[5.0.3, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[5.6.3, )"
+            },
+            "System.Linq.Dynamic.Core": {
+              "target": "Package",
+              "version": "[1.2.15, )"
+            },
+            "X.PagedList": {
+              "target": "Package",
+              "version": "[8.1.0, )"
             }
           },
           "imports": [
