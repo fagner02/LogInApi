@@ -7,7 +7,7 @@ namespace LogInApi.Contexts {
         protected override void OnModelCreating(ModelBuilder builder) {
             base.OnModelCreating(builder);
         }
-        public DbSet<Collaborator> Clients { get; set; }
+        public DbSet<Collaborator> Collaborators { get; set; }
         public DbSet<Address> Addresses { get; set; }
     }
 }
