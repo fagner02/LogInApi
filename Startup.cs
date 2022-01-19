@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LogInApi.Contexts;
+using LogInApi.Repositories;
+using LogInApi.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,6 +34,11 @@ namespace LogInApi {
                 options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
             services.AddAutoMapper(typeof(Startup));
+
+            services.AddScoped<IAddressRepository, AddressRepository>();
+            services.AddScoped<ICollaboratorRepository, CollaboratorRepository>();
+            services.AddScoped<IAddressService, AddressService>();
+            services.AddScoped<ICollaboratorService, CollaboratorService>();
 
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "LogInApi", Version = "v1" });
