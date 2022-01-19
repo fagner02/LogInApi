@@ -1,3 +1,4 @@
+using System;
 namespace LogInApi.Models {
     public class Collaborator {
         public string Cpf { get; set; }
@@ -5,5 +6,6 @@ namespace LogInApi.Models {
         public string Sex { get; set; }
         public string Phone { get; set; }
         public Address Address { get; set; }
+        public DateTime BirthDate { get; set; }
     }
 }
