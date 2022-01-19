@@ -1,20 +1,16 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
+using System.Reflection;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 using LogInApi.Contexts;
 using LogInApi.Repositories;
 using LogInApi.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
 namespace LogInApi {
@@ -48,6 +44,9 @@ namespace LogInApi {
 
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "LogInApi", Version = "v1" });
+                string xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
         }
 
