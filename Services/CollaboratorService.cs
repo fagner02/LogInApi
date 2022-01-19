@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,8 +57,15 @@ namespace LogInApi.Services {
         }
 
         public async Task Create(CollaboratorDto collaborator) {
-            if (collaborator.)
-                await _collaborator.Create(_mapper.Map<Collaborator>(collaborator));
+            DateTime today = DateTime.Today;
+            int age = today.Year - collaborator.BirthDate.Year;
+            if (collaborator.BirthDate.Date > today.AddYears(-age)) {
+                age--;
+            }
+            if (age < 18) {
+                throw new Exception("Collaborator must be 18 years old or older.");
+            }
+            await _collaborator.Create(_mapper.Map<Collaborator>(collaborator));
         }
 
         public async Task<CollaboratorDto> GetByCpf(string cpf) {
