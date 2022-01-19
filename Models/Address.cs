@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System;
 
 namespace LogInApi.Models {
@@ -11,5 +12,6 @@ namespace LogInApi.Models {
         public string District { get; set; }
         public string City { get; set; }
         public string State { get; set; }
+        public IEnumerable<Collaborator> Collaborators { get; set; }
     }
 }
