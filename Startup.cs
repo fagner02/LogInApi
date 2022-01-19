@@ -31,6 +31,8 @@ namespace LogInApi {
             services.AddDbContextPool<DatabaseContext>(
                 options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "LogInApi", Version = "v1" });
             });
