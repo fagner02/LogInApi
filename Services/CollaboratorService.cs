@@ -57,10 +57,10 @@ namespace LogInApi.Services {
         }
 
         public async Task Create(CollaboratorDto collaborator) {
-            if (Validation.ValidateAge(collaborator.BirthDate)) {
+            if (!Validation.ValidateAge(collaborator.BirthDate)) {
                 throw new Exception("Collaborator must be 18 years old or older.");
             }
-            if (Validation.ValidateCpf(collaborator.Cpf)) {
+            if (!Validation.ValidateCpf(collaborator.Cpf)) {
                 throw new Exception("Invalid CPF.");
             }
             await _collaborator.Create(_mapper.Map<Collaborator>(collaborator));
