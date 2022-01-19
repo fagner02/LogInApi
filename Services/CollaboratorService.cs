@@ -7,7 +7,7 @@ using LogInApi.Models;
 using LogInApi.Dtos;
 using LogInApi.Enums;
 using AutoMapper;
-
+using LogInApi.Validations;
 
 namespace LogInApi.Services {
 
@@ -57,13 +57,11 @@ namespace LogInApi.Services {
         }
 
         public async Task Create(CollaboratorDto collaborator) {
-            DateTime today = DateTime.Today;
-            int age = today.Year - collaborator.BirthDate.Year;
-            if (collaborator.BirthDate.Date > today.AddYears(-age)) {
-                age--;
-            }
-            if (age < 18) {
+            if (Validation.ValidateAge(collaborator.BirthDate)) {
                 throw new Exception("Collaborator must be 18 years old or older.");
+            }
+            if (Validation.ValidateCpf(collaborator.Cpf)) {
+                throw new Exception("Invalid CPF.");
             }
             await _collaborator.Create(_mapper.Map<Collaborator>(collaborator));
         }
