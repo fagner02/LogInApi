@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 
 namespace LogInApi.Repositories {
+
     public class CollaboratorRepository : ICollaboratorRepository {
         private readonly DatabaseContext _data;
         public CollaboratorRepository(DatabaseContext data) {
@@ -29,6 +30,16 @@ namespace LogInApi.Repositories {
                 .ToPagedListAsync(pageNumber, pageSize);
         }
 
+        public async Task<IPagedList<Collaborator>> GetAllDeactivatedPaged(
+            int pageNumber, int pageSize,
+            OrderCollaboratorColumn orderColumn, OrderType orderType
+        ) {
+            return await _data.Collaborators
+                .Where("IsActive == false")
+                .OrderBy($"{orderColumn} {orderType}")
+                .ToPagedListAsync(pageNumber, pageSize);
+        }
+
         public async Task Create(Collaborator Collaborator) {
             await _data.Collaborators.AddAsync(Collaborator);
             await _data.SaveChangesAsync();
@@ -36,6 +47,10 @@ namespace LogInApi.Repositories {
 
         public async Task<Collaborator> Get(Expression<Func<Collaborator, bool>> predicate) {
             return await _data.Collaborators.FirstOrDefaultAsync(predicate);
+        }
+
+        public async Task<Collaborator> GetDeactivated(Expression<Func<Collaborator, bool>> predicate) {
+            return await _data.Collaborators.Where("IsActive == false").FirstOrDefaultAsync(predicate);
         }
 
         public async Task<bool> Update(Collaborator collaborator) {

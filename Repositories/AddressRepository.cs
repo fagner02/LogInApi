@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 
 namespace LogInApi.Repositories {
+
     public class AddressRepository : IAddressRepository {
         private readonly DatabaseContext _data;
         public AddressRepository(DatabaseContext data) {
@@ -24,6 +25,17 @@ namespace LogInApi.Repositories {
             OrderAddressColumn orderColumn, OrderType orderType
         ) {
             return await _data.Addresses
+                .Where("IsActive == true")
+                .OrderBy($"{orderColumn} {orderType}")
+                .ToPagedListAsync(pageNumber, pageSize);
+        }
+
+        public async Task<IPagedList<Address>> GetAllDeactivatedPaged(
+            int pageNumber, int pageSize,
+            OrderAddressColumn orderColumn, OrderType orderType
+        ) {
+            return await _data.Addresses
+                .Where("IsActive == false")
                 .OrderBy($"{orderColumn} {orderType}")
                 .ToPagedListAsync(pageNumber, pageSize);
         }
@@ -34,7 +46,11 @@ namespace LogInApi.Repositories {
         }
 
         public async Task<Address> Get(Guid id) {
-            return await _data.Addresses.FirstOrDefaultAsync(x => x.Id == id);
+            return await _data.Addresses.Where("IsActive == true").FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<Address> GetDeactivated(Guid id) {
+            return await _data.Addresses.Where("IsActive == false").FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<bool> Update(Address address) {

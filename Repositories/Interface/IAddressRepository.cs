@@ -11,7 +11,9 @@ namespace LogInApi.Repositories {
         Task<bool> Delete(Address address);
         Task<Address> Get(Guid id);
         Task<IEnumerable<Address>> GetAll();
+        Task<IPagedList<Address>> GetAllDeactivatedPaged(int pageNumber, int pageSize, OrderAddressColumn orderColumn, OrderType orderType);
         Task<IPagedList<Address>> GetAllPaged(int pageNumber, int pageSize, OrderAddressColumn orderColumn, OrderType orderType);
+        Task<Address> GetDeactivated(Guid id);
         Task<bool> Update(Address address);
     }
 }

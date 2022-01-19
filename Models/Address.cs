@@ -13,5 +13,6 @@ namespace LogInApi.Models {
         public string City { get; set; }
         public string State { get; set; }
         public IEnumerable<Collaborator> Collaborators { get; set; }
+        public bool IsActive { get; set; } = true;
     }
 }
