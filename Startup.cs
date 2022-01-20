@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 using LogInApi.Contexts;
 using LogInApi.Repositories;
 using LogInApi.Services;
+using LogInApi.StartupConfig;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -23,31 +24,13 @@ namespace LogInApi {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
+            services.AddDatabaseService(Configuration);
 
-            services
-                .AddControllers()
-                .AddJsonOptions(
-                    options => options.JsonSerializerOptions.Converters.Add(
-                        new JsonStringEnumConverter()
-                    )); ;
+            services.AddControllerService();
 
-            string connectionString = Configuration.GetConnectionString("Default");
-            services.AddDbContextPool<DatabaseContext>(
-                options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+            services.AddDependenciesService();
 
-            services.AddAutoMapper(typeof(Startup));
-
-            services.AddScoped<IAddressRepository, AddressRepository>();
-            services.AddScoped<ICollaboratorRepository, CollaboratorRepository>();
-            services.AddScoped<IAddressService, AddressService>();
-            services.AddScoped<ICollaboratorService, CollaboratorService>();
-
-            services.AddSwaggerGen(c => {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "LogInApi", Version = "v1" });
-                string xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
-            });
+            services.AddSwaggerService();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
