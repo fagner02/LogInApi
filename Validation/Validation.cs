@@ -10,8 +10,12 @@ namespace LogInApi.Validations {
         }
 
         public static bool ValidateCpf(string cpf) {
-            cpf = Regex.Replace(cpf, @"[^0-9]", "");
+            cpf = Regex.Replace(cpf, @"[\-.]", "");
+            if (cpf.Length != 11) {
+                return false;
+            }
 
+            cpf = Regex.Replace(cpf, @"[^0-9]", "");
             if (cpf.Length != 11) {
                 return false;
             }
