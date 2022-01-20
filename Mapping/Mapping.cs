@@ -12,6 +12,7 @@ namespace LogInApi.Mapping {
 
             // COLLABORATOR MAPPING
             CreateMap<CollaboratorDto, Collaborator>().ReverseMap();
+            CreateMap<CreateCollaboratorDto, Collaborator>().ReverseMap();
             CreateMap<UpdateCollaboratorDto, Collaborator>().ReverseMap();
         }
     }
