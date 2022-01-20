@@ -56,7 +56,7 @@ namespace LogInApi.Services {
             return res;
         }
 
-        public async Task Create(CollaboratorDto collaborator) {
+        public async Task Create(CreateCollaboratorDto collaborator) {
             if (!Validation.ValidateAge(collaborator.BirthDate)) {
                 throw new Exception("Collaborator must be 18 years old or older.");
             }
@@ -98,13 +98,15 @@ namespace LogInApi.Services {
             return _mapper.Map<CollaboratorDto>(temp);
         }
 
-        public async Task<bool> Update(string cpf, UpdateCollaboratorDto Collaborator) {
+        public async Task<bool> Update(string cpf, UpdateCollaboratorDto collaborator) {
             Collaborator temp = await _collaborator.Get(x => x.Cpf == cpf);
             if (temp == null) {
                 return false;
             }
-            temp = _mapper.Map<Collaborator>(Collaborator);
-            temp.Cpf = cpf;
+            temp.AddressId = collaborator.AddressId;
+            temp.FullName = collaborator.FullName;
+            temp.Phone = collaborator.Phone;
+            temp.Sex = collaborator.Sex;
             await _collaborator.Update(temp);
             return true;
         }

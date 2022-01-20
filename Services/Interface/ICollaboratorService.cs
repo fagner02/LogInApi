@@ -7,7 +7,7 @@ using LogInApi.Enums;
 
 namespace LogInApi.Services {
     public interface ICollaboratorService {
-        Task Create(CollaboratorDto Collaborator);
+        Task Create(CreateCollaboratorDto Collaborator);
         Task<bool> Deactivate(string cpf);
         Task<bool> Delete(string cpf);
         Task<IEnumerable<CollaboratorDto>> GetAll();

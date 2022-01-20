@@ -71,8 +71,11 @@ namespace LogInApi.Services {
             if (temp.IsActive == false) {
                 return false;
             }
-            temp = _mapper.Map<Address>(address);
-            temp.Id = id;
+            temp.Street = address.Street;
+            temp.City = address.City;
+            temp.Number = address.Number;
+            temp.State = address.State;
+            temp.District = address.District;
             return await _address.Update(temp);
         }
 
