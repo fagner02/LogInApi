@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace LogInApi.Configs {
     class CollaboratorConfig : IEntityTypeConfiguration<Collaborator> {
         public void Configure(EntityTypeBuilder<Collaborator> builder) {
-            builder.Property(x => x.Cpf).IsRequired(true).HasMaxLength(11);
+            builder.Property(x => x.Cpf).IsRequired(true).HasMaxLength(14);
             builder.HasKey(x => x.Cpf);
             builder.Property(x => x.FullName).IsRequired(true).HasMaxLength(100);
             builder.Property(x => x.AddressId).IsRequired(false);
