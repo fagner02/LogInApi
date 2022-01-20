@@ -18,7 +18,7 @@ namespace LogInApi.Repositories {
         }
 
         public async Task<IEnumerable<Collaborator>> GetAll() {
-            return await _data.Collaborators.ToListAsync();
+            return await _data.Collaborators.Include(x => x.Address).ToListAsync();
         }
 
         public async Task<IPagedList<Collaborator>> GetAllPaged(
@@ -26,6 +26,7 @@ namespace LogInApi.Repositories {
             OrderCollaboratorColumn orderColumn = OrderCollaboratorColumn.FullName, OrderType orderType = OrderType.ASC
         ) {
             return await _data.Collaborators
+                .Include(x => x.Address)
                 .OrderBy($"{orderColumn} {orderType}")
                 .ToPagedListAsync(pageNumber, pageSize);
         }
@@ -35,6 +36,7 @@ namespace LogInApi.Repositories {
             OrderCollaboratorColumn orderColumn, OrderType orderType
         ) {
             return await _data.Collaborators
+                .Include(x => x.Address)
                 .Where("IsActive == false")
                 .OrderBy($"{orderColumn} {orderType}")
                 .ToPagedListAsync(pageNumber, pageSize);
@@ -46,11 +48,14 @@ namespace LogInApi.Repositories {
         }
 
         public async Task<Collaborator> Get(Expression<Func<Collaborator, bool>> predicate) {
-            return await _data.Collaborators.FirstOrDefaultAsync(predicate);
+            return await _data.Collaborators.Include(x => x.Address).FirstOrDefaultAsync(predicate);
         }
 
         public async Task<Collaborator> GetDeactivated(Expression<Func<Collaborator, bool>> predicate) {
-            return await _data.Collaborators.Where("IsActive == false").FirstOrDefaultAsync(predicate);
+            return await _data.Collaborators
+                .Include(x => x.Address)
+                .Where("IsActive == false")
+                .FirstOrDefaultAsync(predicate);
         }
 
         public async Task<bool> Update(Collaborator collaborator) {
