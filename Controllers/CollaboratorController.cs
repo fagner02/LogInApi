@@ -66,15 +66,31 @@ namespace LogInApi.Controllers {
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] CollaboratorDto collaborator) {
-            await _collaboratorService.Create(collaborator);
+        public async Task<ActionResult> Post([FromBody] CreateCollaboratorDto collaborator) {
+            try {
+                await _collaboratorService.Create(collaborator);
+            } catch (Exception e) {
+                string message = e.Message;
+                if (e.InnerException != null) {
+                    message = $"{e.Message} {e.InnerException.Message}";
+                }
+                return BadRequest(message);
+            }
             return Ok();
         }
 
         [HttpPut("{cpf}")]
         public async Task<IActionResult> Put(string cpf, UpdateCollaboratorDto collaborator) {
-            if (!await _collaboratorService.Update(cpf, collaborator)) {
-                return NotFound();
+            try {
+                if (!await _collaboratorService.Update(cpf, collaborator)) {
+                    return NotFound();
+                }
+            } catch (Exception e) {
+                string message = e.Message;
+                if (e.InnerException != null) {
+                    message = $"{e.Message} {e.InnerException.Message}";
+                }
+                return BadRequest(message);
             }
             return NoContent();
         }

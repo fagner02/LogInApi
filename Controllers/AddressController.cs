@@ -67,14 +67,30 @@ namespace LogInApi.Controllers {
 
         [HttpPost]
         public async Task<ActionResult<CreateAddressDto>> Post(CreateAddressDto model) {
-            await _addressService.Create(model);
+            try {
+                await _addressService.Create(model);
+            } catch (Exception e) {
+                string message = e.Message;
+                if (e.InnerException != null) {
+                    message = $"{e.Message} {e.InnerException.Message}";
+                }
+                return BadRequest(message);
+            }
             return Ok();
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(Guid id, CreateAddressDto model) {
-            if (!await _addressService.Update(id, model)) {
-                return NotFound();
+            try {
+                if (!await _addressService.Update(id, model)) {
+                    return NotFound();
+                }
+            } catch (Exception e) {
+                string message = e.Message;
+                if (e.InnerException != null) {
+                    message = $"{e.Message} {e.InnerException.Message}";
+                }
+                return BadRequest(message);
             }
             return NoContent();
         }
