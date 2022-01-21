@@ -59,11 +59,5 @@ namespace LogInApi.Repositories {
             await _data.SaveChangesAsync();
             return true;
         }
-
-        public async Task<bool> Delete(Collaborator collaborator) {
-            _data.Collaborators.Remove(collaborator);
-            await _data.SaveChangesAsync();
-            return true;
-        }
     }
 }

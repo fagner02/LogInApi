@@ -7,7 +7,6 @@ namespace LogInApi.Services {
     public interface ICollaboratorService {
         Task<CollaboratorDto> Create(CreateCollaboratorDto collaborator);
         Task<bool> Deactivate(string cpf);
-        Task<bool> Delete(string cpf);
         Task<Response<CollaboratorDto>> GetAllDeactivatedPaged(int pageNumber, int pageSize, OrderCollaboratorColumn orderColumn, OrderType orderType);
         Task<Response<CollaboratorDto>> GetAllPaged(int pageNumber, int pageSize, OrderCollaboratorColumn orderColumn, OrderType orderType);
         Task<CollaboratorDto> GetByCpf(string cpf);

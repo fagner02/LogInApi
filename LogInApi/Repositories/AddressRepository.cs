@@ -53,11 +53,5 @@ namespace LogInApi.Repositories {
             await _data.SaveChangesAsync();
             return true;
         }
-
-        public async Task<bool> Delete(Address address) {
-            _data.Addresses.Remove(address);
-            await _data.SaveChangesAsync();
-            return true;
-        }
     }
 }

@@ -69,14 +69,6 @@ namespace LogInApi.Services {
             return await _address.Update(temp);
         }
 
-        public async Task<bool> Delete(Guid id) {
-            Address temp = await _address.Get(id);
-            if (temp == null) {
-                return false;
-            }
-            return await _address.Delete(temp);
-        }
-
         public async Task<bool> Deactivate(Guid id) {
             Address temp = await _address.Get(id);
             if (temp == null) {

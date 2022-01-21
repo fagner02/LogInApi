@@ -7,7 +7,6 @@ using X.PagedList;
 namespace LogInApi.Repositories {
     public interface IAddressRepository {
         Task Create(Address address);
-        Task<bool> Delete(Address address);
         Task<Address> Get(Guid id);
         Task<IPagedList<Address>> GetAllDeactivatedPaged(int pageNumber, int pageSize, OrderAddressColumn orderColumn, OrderType orderType);
         Task<IPagedList<Address>> GetAllPaged(int pageNumber, int pageSize, OrderAddressColumn orderColumn, OrderType orderType);

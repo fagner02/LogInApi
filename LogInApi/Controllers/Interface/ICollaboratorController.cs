@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace LogInApi.Controllers {
     public interface ICollaboratorController {
         Task<IActionResult> Deactivate(string cpf);
-        Task<ActionResult> Delete(string cpf);
         Task<ActionResult<CollaboratorDto>> Get(string cpf);
         Task<ActionResult<CollaboratorDto>> GetByName(string fullName);
         Task<ActionResult<CollaboratorDto>> GetByNameDeactivated(string fullName);

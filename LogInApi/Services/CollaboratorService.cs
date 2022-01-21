@@ -88,15 +88,6 @@ namespace LogInApi.Services {
             return true;
         }
 
-        public async Task<bool> Delete(string cpf) {
-            Collaborator temp = await _collaborator.Get(x => x.Cpf == cpf);
-            if (temp == null) {
-                return false;
-            }
-            await _collaborator.Delete(temp);
-            return true;
-        }
-
         public async Task<bool> Deactivate(string cpf) {
             Collaborator temp = await _collaborator.Get(x => x.Cpf == cpf);
             if (temp == null) {

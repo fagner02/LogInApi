@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "isyYkhSJgiy6pWNLcy1W42VfS6H4FBhKh+2Y1DdP6X3FqwtCL9bbfQ3/rK9X0pxkckQ37+n0t8jllFWG592cVg==",
+  "dgSpecHash": "CJ3IP+0wEJpU05GwHO+lIEth5vufYLnqNVJ6BNIPhzxqlri22KRFLcEpkUiD2e2uWm9RmwE/iUFhZcf9yRc8CA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Administrador\\Downloads\\mentoring\\LogInApi\\LogInApi.csproj",
+  "projectFilePath": "C:\\Users\\Administrador\\Downloads\\mentoring\\LogInApi\\LogInApi\\LogInApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Administrador\\.nuget\\packages\\automapper\\11.0.0\\automapper.11.0.0.nupkg.sha512",
     "C:\\Users\\Administrador\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\11.0.0\\automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",

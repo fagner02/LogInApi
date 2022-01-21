@@ -85,14 +85,6 @@ namespace LogInApi.Controllers {
             return NoContent();
         }
 
-        [HttpDelete("Deactivated/{cpf}")]
-        public async Task<ActionResult> Delete(string cpf) {
-            if (!await _collaboratorService.Delete(cpf)) {
-                return NotFound();
-            }
-            return NoContent();
-        }
-
         [HttpDelete("{cpf}")]
         public async Task<IActionResult> Deactivate(string cpf) {
             if (!await _collaboratorService.Deactivate(cpf)) {

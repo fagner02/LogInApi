@@ -86,14 +86,6 @@ namespace LogInApi.Controllers {
             return NoContent();
         }
 
-        [HttpDelete("Deactivated/{id}")]
-        public async Task<ActionResult<AddressDto>> Delete(Guid id) {
-            if (!await _addressService.Delete(id)) {
-                return NotFound();
-            }
-            return NoContent();
-        }
-
         [HttpDelete("{id}")]
         public async Task<ActionResult<AddressDto>> Deactivate(Guid id) {
             if (!await _addressService.Deactivate(id)) {
