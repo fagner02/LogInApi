@@ -8,9 +8,10 @@ using LogInApi.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace LogInApi.Controllers {
+
     [Route("api/[controller]")]
     [ApiController]
-    public class AddressController : ControllerBase {
+    public class AddressController : ControllerBase, IAddressController {
         private readonly IAddressService _addressService;
 
         public AddressController(IAddressService addressService) {

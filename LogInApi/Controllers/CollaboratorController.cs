@@ -7,9 +7,10 @@ using LogInApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LogInApi.Controllers {
+
     [ApiController]
     [Route("api/[controller]")]
-    public class CollaboratorController : ControllerBase {
+    public class CollaboratorController : ControllerBase, ICollaboratorController {
         private readonly ICollaboratorService _collaboratorService;
         public CollaboratorController(ICollaboratorService collaboratorService) {
             _collaboratorService = collaboratorService;
