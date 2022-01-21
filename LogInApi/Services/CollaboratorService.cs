@@ -20,18 +20,6 @@ namespace LogInApi.Services {
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<CollaboratorDto>> GetAll() {
-            return _mapper.Map<IEnumerable<CollaboratorDto>>(
-                (await _collaborator.GetAll()).ToList().Where(x => x.IsActive == true)
-            );
-        }
-
-        public async Task<IEnumerable<CollaboratorDto>> GetAllDeactivated() {
-            return _mapper.Map<IEnumerable<CollaboratorDto>>(
-                (await _collaborator.GetAll()).ToList().Where(x => x.IsActive == false)
-            );
-        }
-
         public async Task<Response<CollaboratorDto>> GetAllPaged(
             int pageNumber,
             int pageSize,
@@ -56,45 +44,34 @@ namespace LogInApi.Services {
             return res;
         }
 
-        public async Task Create(CreateCollaboratorDto collaborator) {
+        public async Task<CollaboratorDto> Create(CreateCollaboratorDto collaborator) {
             if (!Validation.ValidateAge(collaborator.BirthDate)) {
                 throw new Exception("Collaborator must be 18 years old or older.");
             }
             if (!Validation.ValidateCpf(collaborator.Cpf)) {
                 throw new Exception("Invalid CPF.");
             }
-            await _collaborator.Create(_mapper.Map<Collaborator>(collaborator));
+            Collaborator result = await _collaborator.Create(_mapper.Map<Collaborator>(collaborator));
+            return _mapper.Map<CollaboratorDto>(result);
         }
 
         public async Task<CollaboratorDto> GetByCpf(string cpf) {
             Collaborator temp = await _collaborator.Get(x => x.Cpf == cpf);
-            if (temp != null) {
-                return null;
-            }
             return _mapper.Map<CollaboratorDto>(temp);
         }
 
         public async Task<CollaboratorDto> GetByCpfDeactivated(string cpf) {
             Collaborator temp = await _collaborator.GetDeactivated(x => x.Cpf == cpf);
-            if (temp != null) {
-                return null;
-            }
             return _mapper.Map<CollaboratorDto>(temp);
         }
 
         public async Task<CollaboratorDto> GetByName(string fullName) {
             Collaborator temp = await _collaborator.Get(x => x.FullName == fullName);
-            if (temp != null) {
-                return null;
-            }
             return _mapper.Map<CollaboratorDto>(temp);
         }
 
         public async Task<CollaboratorDto> GetByNameDeactivated(string fullName) {
             Collaborator temp = await _collaborator.GetDeactivated(x => x.FullName == fullName);
-            if (temp != null) {
-                return null;
-            }
             return _mapper.Map<CollaboratorDto>(temp);
         }
 

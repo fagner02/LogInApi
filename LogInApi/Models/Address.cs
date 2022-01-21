@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 using System;
 
-namespace LogInApi.Models {
-    public class Address {
-        Address() {
+namespace LogInApi.Models
+{
+    public class Address
+    {
+        public Address()
+        {
             this.Id = Guid.NewGuid();
         }
         public Guid Id { get; set; }

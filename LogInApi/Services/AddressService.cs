@@ -19,16 +19,6 @@ namespace LogInApi.Services {
             _address = address;
         }
 
-        public async Task<IEnumerable<AddressDto>> GetAll() {
-            return _mapper.Map<IEnumerable<AddressDto>>((await _address.GetAll()).ToList()
-                .Where(x => x.IsActive == true));
-        }
-
-        public async Task<IEnumerable<AddressDto>> GetAllDeactivated() {
-            return _mapper.Map<IEnumerable<AddressDto>>((await _address.GetAll()).ToList()
-                .Where(x => x.IsActive == false));
-        }
-
         public async Task<Response<AddressDto>> GetAllPaged(
             int pageNumber,
             int pageSize,

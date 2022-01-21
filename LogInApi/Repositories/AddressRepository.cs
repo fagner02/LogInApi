@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using LogInApi.Contexts;
@@ -14,10 +13,6 @@ namespace LogInApi.Repositories {
         private readonly DatabaseContext _data;
         public AddressRepository(DatabaseContext data) {
             _data = data;
-        }
-
-        public async Task<IEnumerable<Address>> GetAll() {
-            return await _data.Addresses.ToListAsync();
         }
 
         public async Task<IPagedList<Address>> GetAllPaged(

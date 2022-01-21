@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -15,10 +14,6 @@ namespace LogInApi.Repositories {
         private readonly DatabaseContext _data;
         public CollaboratorRepository(DatabaseContext data) {
             _data = data;
-        }
-
-        public async Task<IEnumerable<Collaborator>> GetAll() {
-            return await _data.Collaborators.Include(x => x.Address).ToListAsync();
         }
 
         public async Task<IPagedList<Collaborator>> GetAllPaged(
@@ -42,9 +37,10 @@ namespace LogInApi.Repositories {
                 .ToPagedListAsync(pageNumber, pageSize);
         }
 
-        public async Task Create(Collaborator Collaborator) {
-            await _data.Collaborators.AddAsync(Collaborator);
+        public async Task<Collaborator> Create(Collaborator collaborator) {
+            await _data.Collaborators.AddAsync(collaborator);
             await _data.SaveChangesAsync();
+            return collaborator;
         }
 
         public async Task<Collaborator> Get(Expression<Func<Collaborator, bool>> predicate) {

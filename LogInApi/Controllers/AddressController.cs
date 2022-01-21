@@ -17,16 +17,6 @@ namespace LogInApi.Controllers {
             _addressService = addressService;
         }
 
-        [HttpGet("All")]
-        public async Task<ActionResult<IEnumerable<AddressDto>>> GetAdresses() {
-            return Ok(await _addressService.GetAll());
-        }
-
-        [HttpGet("Deactivated/All")]
-        public async Task<ActionResult<IEnumerable<AddressDto>>> GetDeactivatedAdresses() {
-            return Ok(await _addressService.GetAllDeactivated());
-        }
-
         [HttpGet("Paged")]
         public async Task<ActionResult> GetAdressesPaged(
             [FromQuery] int pageNumber,

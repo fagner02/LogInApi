@@ -15,16 +15,6 @@ namespace LogInApi.Controllers {
             _collaboratorService = collaboratorService;
         }
 
-        [HttpGet("All")]
-        public async Task<ActionResult<IEnumerable<CollaboratorDto>>> GetCollaborators() {
-            return Ok(await _collaboratorService.GetAll());
-        }
-
-        [HttpGet("Deactivated/All")]
-        public async Task<ActionResult<IEnumerable<CollaboratorDto>>> GetDeactivatedCollaborators() {
-            return Ok(await _collaboratorService.GetAllDeactivated());
-        }
-
         [HttpGet("Paged")]
         public async Task<ActionResult> GetCollaboratorsPaged(
             [FromQuery] int pageNumber,
@@ -66,9 +56,9 @@ namespace LogInApi.Controllers {
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] CreateCollaboratorDto collaborator) {
+        public async Task<ActionResult<CollaboratorDto>> Post([FromBody] CreateCollaboratorDto collaborator) {
             try {
-                await _collaboratorService.Create(collaborator);
+                return Ok(await _collaboratorService.Create(collaborator));
             } catch (Exception e) {
                 string message = e.Message;
                 if (e.InnerException != null) {
@@ -76,7 +66,6 @@ namespace LogInApi.Controllers {
                 }
                 return BadRequest(message);
             }
-            return Ok();
         }
 
         [HttpPut("{cpf}")]
