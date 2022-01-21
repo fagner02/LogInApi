@@ -13,6 +13,6 @@ namespace LogInApi.Services {
         Task<Response<AddressDto>> GetAllDeactivatedPaged(int pageNumber, int pageSize, OrderAddressColumn orderColumn, OrderType orderType);
         Task<Response<AddressDto>> GetAllPaged(int pageNumber, int pageSize, OrderAddressColumn orderColumn, OrderType orderType);
         Task<AddressDto> GetDeativated(Guid id);
-        Task<bool> Update(Guid id, CreateAddressDto address);
+        Task<bool> Update(Guid id, UpdateAddressDto address);
     }
 }

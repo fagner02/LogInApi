@@ -46,14 +46,22 @@ namespace LogInApi.Services {
         }
 
         public async Task<AddressDto> Get(Guid id) {
-            return _mapper.Map<AddressDto>(await _address.Get(id));
+            Address result = await _address.Get(id);
+            if (result == null) {
+                return null;
+            }
+            return _mapper.Map<AddressDto>(result);
         }
 
         public async Task<AddressDto> GetDeativated(Guid id) {
-            return _mapper.Map<AddressDto>(await _address.GetDeactivated(id));
+            Address result = await _address.GetDeactivated(id);
+            if (result == null) {
+                return null;
+            }
+            return _mapper.Map<AddressDto>(result);
         }
 
-        public async Task<bool> Update(Guid id, CreateAddressDto address) {
+        public async Task<bool> Update(Guid id, UpdateAddressDto address) {
             Address temp = await _address.Get(id);
             if (temp == null) {
                 return false;

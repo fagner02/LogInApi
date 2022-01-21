@@ -24,7 +24,7 @@ namespace LogInApi.Controllers {
         /// <response code="200">Returns the PagedList with OK status</response>
         /// <response code="400">Returns an ERROR status due to invalid parameters</response>
         [HttpGet("Paged")]
-        public async Task<ActionResult> GetAdressesPaged(
+        public async Task<ActionResult> GetAddressesPaged(
             [FromQuery] int pageNumber,
             [FromQuery] int pageSize,
             [FromQuery] OrderAddressColumn orderColumn,
@@ -39,7 +39,7 @@ namespace LogInApi.Controllers {
         /// <response code="200">Returns the PagedList with OK status</response>
         /// <response code="400">Returns an ERROR status due to invalid parameters</response>
         [HttpGet("Deactivated/Paged")]
-        public async Task<ActionResult> GetDeactivatedAdressesPaged(
+        public async Task<ActionResult> GetDeactivatedAddressesPaged(
             [FromQuery] int pageNumber,
             [FromQuery] int pageSize,
             [FromQuery] OrderAddressColumn orderColumn,
@@ -105,7 +105,7 @@ namespace LogInApi.Controllers {
         /// <response code="400">Returns an ERROR status due to validation error</response>
         /// <response code="404">Returns an ERROR status due to Address not found</response>
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, CreateAddressDto model) {
+        public async Task<IActionResult> Put(Guid id, UpdateAddressDto model) {
             try {
                 if (!await _addressService.Update(id, model)) {
                     return NotFound();

@@ -58,21 +58,33 @@ namespace LogInApi.Services {
 
         public async Task<CollaboratorDto> GetByCpf(string cpf) {
             Collaborator temp = await _collaborator.Get(x => x.Cpf == cpf);
+            if (temp == null) {
+                return null;
+            }
             return _mapper.Map<CollaboratorDto>(temp);
         }
 
         public async Task<CollaboratorDto> GetByCpfDeactivated(string cpf) {
             Collaborator temp = await _collaborator.GetDeactivated(x => x.Cpf == cpf);
+            if (temp == null) {
+                return null;
+            }
             return _mapper.Map<CollaboratorDto>(temp);
         }
 
         public async Task<CollaboratorDto> GetByName(string fullName) {
             Collaborator temp = await _collaborator.Get(x => x.FullName == fullName);
+            if (temp == null) {
+                return null;
+            }
             return _mapper.Map<CollaboratorDto>(temp);
         }
 
         public async Task<CollaboratorDto> GetByNameDeactivated(string fullName) {
             Collaborator temp = await _collaborator.GetDeactivated(x => x.FullName == fullName);
+            if (temp == null) {
+                return null;
+            }
             return _mapper.Map<CollaboratorDto>(temp);
         }
 
