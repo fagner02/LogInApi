@@ -4,5 +4,273 @@
         <name>LogInApi</name>
     </assembly>
     <members>
+        <member name="M:LogInApi.Controllers.CollaboratorController.GetCollaboratorsPaged(System.Int32,System.Int32,LogInApi.Enums.OrderCollaboratorColumn,LogInApi.Enums.OrderType)">
+            <summary>
+            This method returns a PagedList of active Collaborators
+            </summary>
+            <response code="200">Returns the PagedList with OK status</response>
+            <response code="400">Returns an ERROR status due to invalid parameters</response>
+        </member>
+        <member name="M:LogInApi.Controllers.CollaboratorController.GetDeactivatedCollaboratorsPaged(System.Int32,System.Int32,LogInApi.Enums.OrderCollaboratorColumn,LogInApi.Enums.OrderType)">
+            <summary>
+            This method returns a PagedList of deactivated Collaborators
+            </summary>
+            <response code="200">Returns the PagedList with OK status</response>
+            <response code="400">Returns an ERROR status due to invalid parameters</response>
+        </member>
+        <member name="M:LogInApi.Controllers.CollaboratorController.Get(System.String)">
+            <summary>
+            This method returns an active Collaborator by Cpf
+            </summary>
+            <response code="200">Returns the Collaborator with OK status</response>
+            <response code="404">Returns an ERROR status due to collaborator not found</response>
+        </member>
+        <member name="M:LogInApi.Controllers.CollaboratorController.GetDeactivated(System.String)">
+            <summary>
+            This method returns a deactivated Collaborator by Cpf
+            </summary>
+            <response code="200">Returns the Collaborator with OK status</response>
+            <response code="404">Returns an ERROR status due to collaborator not found</response>
+        </member>
+        <member name="M:LogInApi.Controllers.CollaboratorController.GetByName(System.String)">
+            <summary>
+            This method returns an active Collaborator by Name
+            </summary>
+            <response code="200">Returns the Collaborator with OK status</response>
+            <response code="404">Returns an ERROR status due to collaborator not found</response>
+        </member>
+        <member name="M:LogInApi.Controllers.CollaboratorController.GetByNameDeactivated(System.String)">
+            <summary>
+            This method returns a deactivated Collaborator by Name
+            </summary>
+            <response code="200">Returns the Collaborator with OK status</response>
+            <response code="404">Returns an ERROR status due to collaborator not found</response>
+        </member>
+        <member name="M:LogInApi.Controllers.CollaboratorController.Post(LogInApi.Dtos.CreateCollaboratorDto)">
+            <summary>
+            This method creates a new Collaborator
+            </summary>
+            <remarks>
+            All fields can be edited.
+            Cpf is required and must be valid.
+            </remarks>
+            <response code="200">Returns the Collaborator with OK status</response>
+            <response code="400">Returns an ERROR status due to validation error</response>
+        </member>
+        <member name="M:LogInApi.Controllers.CollaboratorController.Put(System.String,LogInApi.Dtos.UpdateCollaboratorDto)">
+            <summary>
+            This method updates a Collaborator
+            </summary>
+            <remarks>
+            This method uses Cpf to search for the Collaborator.
+            This method only searchs for active Collaborators.
+            Only FullName, Phone, Sex and AddressId can be updated.
+            </remarks>
+            <response code="204">Returns an OK status with no content</response>
+            <response code="400">Returns an ERROR status due to validation error</response>
+            <response code="404">Returns an ERROR status due to collaborator not found</response>
+        </member>
+        <member name="M:LogInApi.Controllers.CollaboratorController.Deactivate(System.String)">
+            <summary>
+            This method deactivates a Collaborator
+            </summary>
+            <remarks>
+            This method uses Cpf to search for the Collaborator.
+            This method only searchs for active Collaborators.
+            </remarks>
+            <response code="204">Returns an OK status with no content</response>
+            <response code="404">Returns an ERROR status due to collaborator not found</response>
+        </member>
+        <member name="M:LogInApi.Controllers.CollaboratorController.Activate(System.String)">
+            <summary>
+            This method activates a Collaborator
+            </summary>
+            <remarks>
+            This method uses Cpf to search for the Collaborator.
+            This method only searchs for deactivated Collaborators.
+            </remarks>
+            <response code="204">Returns an OK status with no content</response>
+            <response code="404">Returns an ERROR status due to collaborator not found</response>
+        </member>
+        <member name="P:LogInApi.Dtos.CollaboratorDto.Cpf">
+            <summary>
+            string : Collaborator's CPF.
+            </summary>
+            <example>
+            111.111.111-11
+            </example>
+        </member>
+        <member name="P:LogInApi.Dtos.CollaboratorDto.FullName">
+            <summary>
+            string : Collaborator's Full Name.
+            </summary>
+            <example>
+            John Doe
+            </example>
+        </member>
+        <member name="P:LogInApi.Dtos.CollaboratorDto.Sex">
+            <summary>
+            string : Collaborator's Sex.
+            </summary>
+            <example>
+            M
+            </example>
+        </member>
+        <member name="P:LogInApi.Dtos.CollaboratorDto.Phone">
+            <summary>
+            string : Collaborator's Phone.
+            </summary>
+            <example>
+            00 00000000
+            </example>
+        </member>
+        <member name="P:LogInApi.Dtos.CollaboratorDto.Address">
+            <summary>
+            Address : Collaborator's Address Object.
+            </summary>
+        </member>
+        <member name="P:LogInApi.Dtos.CollaboratorDto.BirthDate">
+            <summary>
+            DateTime : Collaborator's Birthdate.
+            </summary>
+            <example>
+            12/30/2000
+            </example>
+        </member>
+        <member name="P:LogInApi.Dtos.CreateCollaboratorDto.Cpf">
+            <summary>
+            string : Collaborator's CPF.
+            </summary>
+            <example>
+            111.111.111-11
+            </example>
+        </member>
+        <member name="P:LogInApi.Dtos.CreateCollaboratorDto.FullName">
+            <summary>
+            string : Collaborator's Full Name.
+            </summary>
+            <example>
+            John Doe
+            </example>
+        </member>
+        <member name="P:LogInApi.Dtos.CreateCollaboratorDto.Sex">
+            <summary>
+            string : Collaborator's Sex.
+            </summary>
+            <example>
+            M
+            </example>
+        </member>
+        <member name="P:LogInApi.Dtos.CreateCollaboratorDto.Phone">
+            <summary>
+            string : Collaborator's Phone.
+            </summary>
+            <example>
+            00 00000000
+            </example>
+        </member>
+        <member name="P:LogInApi.Dtos.CreateCollaboratorDto.AddressId">
+            <summary>
+            Guid : Collaborator's Address Object Id.
+            </summary>
+        </member>
+        <member name="P:LogInApi.Dtos.CreateCollaboratorDto.BirthDate">
+            <summary>
+            DateTime : Collaborator's Birthdate.
+            </summary>
+            <remarks>description</remarks>
+            <example>
+            12/30/2000
+            </example>
+        </member>
+        <member name="P:LogInApi.Dtos.UpdateCollaboratorDto.FullName">
+            <summary>
+            string : Collaborator's Full Name.
+            </summary>
+            <example>
+            John Doe
+            </example>
+        </member>
+        <member name="P:LogInApi.Dtos.UpdateCollaboratorDto.Sex">
+            <summary>
+            string : Collaborator's Sex.
+            </summary>
+            <example>
+            M
+            </example>
+        </member>
+        <member name="P:LogInApi.Dtos.UpdateCollaboratorDto.Phone">
+            <summary>
+            string : Collaborator's Phone.
+            </summary>
+            <example>
+            00 00000000
+            </example>
+        </member>
+        <member name="P:LogInApi.Dtos.UpdateCollaboratorDto.AddressId">
+            <summary>
+            Guid : Collaborator's Address Object Id.
+            </summary>
+        </member>
+        <member name="T:LogInApi.Models.Collaborator">
+            <summary>
+            This Object represents the Collaborator Model.
+            </summary>
+        </member>
+        <member name="P:LogInApi.Models.Collaborator.Cpf">
+            <summary>
+            string : Collaborator's CPF.
+            </summary>
+            <example>
+            111.111.111-11
+            </example>
+        </member>
+        <member name="P:LogInApi.Models.Collaborator.FullName">
+            <summary>
+            string : Collaborator's Full Name.
+            </summary>
+            <example>
+            John Doe
+            </example>
+        </member>
+        <member name="P:LogInApi.Models.Collaborator.Sex">
+            <summary>
+            string : Collaborator's Sex.
+            </summary>
+            <example>
+            M
+            </example>
+        </member>
+        <member name="P:LogInApi.Models.Collaborator.Phone">
+            <summary>
+            string : Collaborator's Phone.
+            </summary>
+            <example>
+            00 00000000
+            </example>
+        </member>
+        <member name="P:LogInApi.Models.Collaborator.AddressId">
+            <summary>
+            Guid : Collaborator's Address Object Id.
+            </summary>
+        </member>
+        <member name="P:LogInApi.Models.Collaborator.Address">
+            <summary>
+            Address : Collaborator's Address Object.
+            </summary>
+        </member>
+        <member name="P:LogInApi.Models.Collaborator.BirthDate">
+            <summary>
+            DateTime : Collaborator's Birthdate.
+            </summary>
+            <example>
+            12/30/2000
+            </example>
+        </member>
+        <member name="P:LogInApi.Models.Collaborator.IsActive">
+            <summary>
+            bool : Collaborator's Deactivation Status.
+            </summary>
+        </member>
     </members>
 </doc>

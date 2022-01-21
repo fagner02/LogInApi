@@ -32,7 +32,7 @@ namespace UnitTest {
             CreateCollaboratorDto createCollaboratorDto = new() {
                 FullName = "Joao Junior",
                 AddressId = Guid.NewGuid(),
-                BirthDate = new DateTime(2000, 1, 1),
+                BirthDate = "10/30/2000",
                 Cpf = "578.847.384-57",
                 Phone = "123456789",
                 Sex = "m"
@@ -63,7 +63,7 @@ namespace UnitTest {
                     State = "CE",
                     District = "Centro",
                 },
-                BirthDate = new DateTime(2000, 1, 1),
+                BirthDate = "10/30/2000",
                 Cpf = "578.847.384-57",
                 Phone = "123456789",
                 Sex = "m"
@@ -83,7 +83,7 @@ namespace UnitTest {
 
         [Theory]
         [InlineData("254.245.912-64")]
-        public void CheckExistentCollaboratorByCpf(string cpf) {
+        public void CheckExistentActiveCollaboratorByCpf(string cpf) {
             // Arrange
             IEnumerable<Collaborator> collaborators = new List<Collaborator>() {
                 new() {
@@ -120,25 +120,25 @@ namespace UnitTest {
             IEnumerable<CollaboratorDto> collaboratorDtos = new List<CollaboratorDto>() {
                 new() {
                     FullName = "Francisco Augusto",
-                    BirthDate = DateTime.Now,
+                    BirthDate = "10/30/2000",
                     Cpf = "254.245.912-64",
                     Phone = "123456789",
                 },
                 new() {
                     FullName = "Maria Eliza",
-                    BirthDate = DateTime.Now,
+                    BirthDate = "10/30/2000",
                     Cpf = "932.307.820-46",
                     Phone = "0808708009",
                 },
                 new() {
                     FullName = "Ana Maria",
-                    BirthDate = DateTime.Now,
+                    BirthDate = "10/30/2000",
                     Cpf = "312.153.739-37",
                     Phone = "87575857",
                 },
                 new() {
                     FullName = "Igor Silva",
-                    BirthDate = DateTime.Now,
+                    BirthDate = "10/30/2000",
                     Cpf = "578.847.384-57",
                     Phone = "123456789",
                 }
@@ -164,7 +164,7 @@ namespace UnitTest {
 
         [Theory]
         [InlineData("254.245.912-66")]
-        public void CheckNullCollaboratorByCpf(string cpf) {
+        public void CheckNullActiveCollaboratorByCpf(string cpf) {
             // Arrange
             IEnumerable<Collaborator> collaborators = new List<Collaborator>() {
                 new() {
@@ -201,25 +201,25 @@ namespace UnitTest {
             IEnumerable<CollaboratorDto> collaboratorDtos = new List<CollaboratorDto>() {
                 new() {
                     FullName = "Francisco Augusto",
-                    BirthDate = DateTime.Now,
+                    BirthDate = "10/30/2000",
                     Cpf = "254.245.912-64",
                     Phone = "123456789",
                 },
                 new() {
                     FullName = "Maria Eliza",
-                    BirthDate = DateTime.Now,
+                    BirthDate = "10/30/2000",
                     Cpf = "932.307.820-46",
                     Phone = "0808708009",
                 },
                 new() {
                     FullName = "Ana Maria",
-                    BirthDate = DateTime.Now,
+                    BirthDate = "10/30/2000",
                     Cpf = "312.153.739-37",
                     Phone = "87575857",
                 },
                 new() {
                     FullName = "Igor Silva",
-                    BirthDate = DateTime.Now,
+                    BirthDate = "10/30/2000",
                     Cpf = "578.847.384-57",
                     Phone = "123456789",
                 }
@@ -229,7 +229,169 @@ namespace UnitTest {
             _collaborator
                 .Setup(x => x.Get(It.IsAny<Expression<Func<Collaborator, bool>>>()))
                 .Returns((Expression<Func<Collaborator, bool>> predicate)
-                    => Task.FromResult(collaborators.Where(x => x.IsActive).ToList().FirstOrDefault(x => x.Cpf == cpf)));
+                    => Task.FromResult(collaborators
+                    .Where(x => x.IsActive).ToList().FirstOrDefault(x => x.Cpf == cpf)));
+
+            _mapper
+                .Setup(x => x.Map<CollaboratorDto>(It.IsAny<Collaborator>()))
+                .Returns(collaboratorDtos.FirstOrDefault(x => x.Cpf == cpf));
+
+            var result = _collaboratorService.GetByCpf(cpf);
+
+            // Assert
+            Assert.Null(result.Result);
+        }
+
+        [Theory]
+        [InlineData("254.245.912-64")]
+        public void CheckExistentDeactivatedCollaboratorByCpf(string cpf) {
+            // Arrange
+            IEnumerable<Collaborator> collaborators = new List<Collaborator>() {
+                new() {
+                    FullName = "Francisco Augusto",
+                    AddressId = Guid.NewGuid(),
+                    BirthDate = DateTime.Now,
+                    Cpf = "254.245.912-64",
+                    Phone = "123456789",
+                    IsActive = false
+                },
+                new() {
+                    FullName = "Maria Eliza",
+                    AddressId = Guid.NewGuid(),
+                    BirthDate = DateTime.Now,
+                    Cpf = "932.307.820-46",
+                    Phone = "0808708009",
+                },
+                new() {
+                    FullName = "Ana Maria",
+                    AddressId = Guid.NewGuid(),
+                    BirthDate = DateTime.Now,
+                    Cpf = "312.153.739-37",
+                    Phone = "87575857",
+                },
+                new() {
+                    FullName = "Igor Silva",
+                    AddressId = Guid.NewGuid(),
+                    BirthDate = DateTime.Now,
+                    Cpf = "578.847.384-57",
+                    Phone = "123456789",
+                }
+            };
+
+            IEnumerable<CollaboratorDto> collaboratorDtos = new List<CollaboratorDto>() {
+                new() {
+                    FullName = "Francisco Augusto",
+                    BirthDate = "10/30/2000",
+                    Cpf = "254.245.912-64",
+                    Phone = "123456789",
+                },
+                new() {
+                    FullName = "Maria Eliza",
+                    BirthDate = "10/30/2000",
+                    Cpf = "932.307.820-46",
+                    Phone = "0808708009",
+                },
+                new() {
+                    FullName = "Ana Maria",
+                    BirthDate = "10/30/2000",
+                    Cpf = "312.153.739-37",
+                    Phone = "87575857",
+                },
+                new() {
+                    FullName = "Igor Silva",
+                    BirthDate = "10/30/2000",
+                    Cpf = "578.847.384-57",
+                    Phone = "123456789",
+                }
+            };
+
+            // Act
+            _collaborator
+                .Setup(x => x.Get(It.IsAny<Expression<Func<Collaborator, bool>>>()))
+                .Returns((Expression<Func<Collaborator, bool>> predicate)
+                    => Task.FromResult(collaborators.ToList()
+                        .Where(x => !x.IsActive)
+                        .FirstOrDefault(x => x.Cpf == cpf)));
+
+            _mapper
+                .Setup(x => x.Map<CollaboratorDto>(It.IsAny<Collaborator>()))
+                .Returns(collaboratorDtos.FirstOrDefault(x => x.Cpf == cpf));
+
+            var result = _collaboratorService.GetByCpf(cpf);
+
+            // Assert
+            Assert.NotNull(result.Result);
+        }
+
+        [Theory]
+        [InlineData("254.245.912-66")]
+        public void CheckNullDeactivatedCollaboratorByCpf(string cpf) {
+            // Arrange
+            IEnumerable<Collaborator> collaborators = new List<Collaborator>() {
+                new() {
+                    FullName = "Francisco Augusto",
+                    AddressId = Guid.NewGuid(),
+                    BirthDate = DateTime.Now,
+                    Cpf = "254.245.912-64",
+                    Phone = "123456789",
+                    IsActive = false
+                },
+                new() {
+                    FullName = "Maria Eliza",
+                    AddressId = Guid.NewGuid(),
+                    BirthDate = DateTime.Now,
+                    Cpf = "932.307.820-46",
+                    Phone = "0808708009",
+                },
+                new() {
+                    FullName = "Ana Maria",
+                    AddressId = Guid.NewGuid(),
+                    BirthDate = DateTime.Now,
+                    Cpf = "312.153.739-37",
+                    Phone = "87575857",
+                },
+                new() {
+                    FullName = "Igor Silva",
+                    AddressId = Guid.NewGuid(),
+                    BirthDate = DateTime.Now,
+                    Cpf = "578.847.384-57",
+                    Phone = "123456789",
+                }
+            };
+
+            IEnumerable<CollaboratorDto> collaboratorDtos = new List<CollaboratorDto>() {
+                new() {
+                    FullName = "Francisco Augusto",
+                    BirthDate = "10/30/2000",
+                    Cpf = "254.245.912-64",
+                    Phone = "123456789",
+                },
+                new() {
+                    FullName = "Maria Eliza",
+                    BirthDate = "10/30/2000",
+                    Cpf = "932.307.820-46",
+                    Phone = "0808708009",
+                },
+                new() {
+                    FullName = "Ana Maria",
+                    BirthDate = "10/30/2000",
+                    Cpf = "312.153.739-37",
+                    Phone = "87575857",
+                },
+                new() {
+                    FullName = "Igor Silva",
+                    BirthDate = "10/30/2000",
+                    Cpf = "578.847.384-57",
+                    Phone = "123456789",
+                }
+            };
+
+            // Act
+            _collaborator
+                .Setup(x => x.Get(It.IsAny<Expression<Func<Collaborator, bool>>>()))
+                .Returns((Expression<Func<Collaborator, bool>> predicate)
+                    => Task.FromResult(collaborators
+                    .Where(x => !x.IsActive).ToList().FirstOrDefault(x => x.Cpf == cpf)));
 
             _mapper
                 .Setup(x => x.Map<CollaboratorDto>(It.IsAny<Collaborator>()))
@@ -284,7 +446,7 @@ namespace UnitTest {
                         State = "CE",
                         Street = "Rua Teste",
                     },
-                    BirthDate = DateTime.Now,
+                    BirthDate = "10/30/2000",
                     Cpf = "254.245.912-64",
                     Phone = "123456789",
                 },
@@ -297,7 +459,7 @@ namespace UnitTest {
                         State = "CE",
                         Street = "Rua Teste",
                     },
-                    BirthDate = DateTime.Now,
+                   BirthDate = "10/30/2000",
                     Cpf = "932.307.820-46",
                     Phone = "0808708009",
                 },
@@ -310,7 +472,7 @@ namespace UnitTest {
                         State = "CE",
                         Street = "Rua Teste",
                     },
-                    BirthDate = DateTime.Now,
+                    BirthDate = "10/30/2000",
                     Cpf = "312.153.739-37",
                     Phone = "87575857",
                 },
@@ -325,183 +487,15 @@ namespace UnitTest {
                 .Setup(x => x.Map<IEnumerable<CollaboratorDto>>(It.IsAny<Collaborator>()))
                 .Returns(collaboratorDtos);
 
-            var result = _collaboratorService.GetAll();
+            var result = _collaboratorService.GetAllPaged(pageNumber, pageSize, orderColumn, orderType);
 
             // Assert
             Assert.NotNull(result.Result);
-            Assert.True(result.Result.Count() <= pageSize);
-        }
-
-        [Theory]
-        [InlineData("254.245.912-64")]
-        public void CheckExistentDeactivatedCollaboratorByCpf(string cpf) {
-            // Arrange
-            IEnumerable<Collaborator> collaborators = new List<Collaborator>() {
-                new() {
-                    FullName = "Francisco Augusto",
-                    AddressId = Guid.NewGuid(),
-                    BirthDate = DateTime.Now,
-                    Cpf = "254.245.912-64",
-                    Phone = "123456789",
-                    IsActive = false,
-                },
-                new() {
-                    FullName = "Maria Eliza",
-                    AddressId = Guid.NewGuid(),
-                    BirthDate = DateTime.Now,
-                    Cpf = "932.307.820-46",
-                    Phone = "0808708009",
-                    IsActive = false,
-                },
-                new() {
-                    FullName = "Mara Maria",
-                    AddressId = Guid.NewGuid(),
-                    BirthDate = DateTime.Now,
-                    Cpf = "312.153.739-38",
-                    Phone = "87575857",
-                    IsActive = true,
-                },
-                new() {
-                    FullName = "Ana Maria",
-                    AddressId = Guid.NewGuid(),
-                    BirthDate = DateTime.Now,
-                    Cpf = "312.153.739-37",
-                    Phone = "87575857",
-                    IsActive = false,
-                },
-            };
-
-            IEnumerable<CollaboratorDto> collaboratorDtos = new List<CollaboratorDto>() {
-                new() {
-                    FullName = "Francisco Augusto",
-                    BirthDate = DateTime.Now,
-                    Cpf = "254.245.912-64",
-                    Phone = "123456789",
-                },
-                new() {
-                    FullName = "Maria Eliza",
-                    BirthDate = DateTime.Now,
-                    Cpf = "932.307.820-46",
-                    Phone = "0808708009",
-                },
-                new() {
-                    FullName = "Mara Maria",
-                    BirthDate = DateTime.Now,
-                    Cpf = "312.153.739-38",
-                    Phone = "87575857",
-                },
-                new() {
-                    FullName = "Ana Maria",
-                    BirthDate = DateTime.Now,
-                    Cpf = "312.153.739-37",
-                    Phone = "87575857",
-                }
-            };
-
-            // Act
-            _collaborator
-                .Setup(x => x.Get(It.IsAny<Expression<Func<Collaborator, bool>>>()))
-                .Returns((Expression<Func<Collaborator, bool>> predicate)
-                    => Task.FromResult(collaborators.ToList()
-                        .Where(x => !x.IsActive)
-                        .FirstOrDefault(x => x.Cpf == cpf)));
-
-            _mapper
-                .Setup(x => x.Map<CollaboratorDto>(It.IsAny<Collaborator>()))
-                .Returns(collaboratorDtos.FirstOrDefault(x => x.Cpf == cpf));
-
-            var result = _collaboratorService.GetByCpf(cpf);
-
-            // Assert
-            Assert.NotNull(result.Result);
-        }
-
-        [Theory]
-        [InlineData("254.245.912-64")]
-        public void CheckNullDeactivatedCollaboratorByCpf(string cpf) {
-            // Arrange
-            IEnumerable<Collaborator> collaborators = new List<Collaborator>() {
-                new() {
-                    FullName = "Francisco Augusto",
-                    AddressId = Guid.NewGuid(),
-                    BirthDate = DateTime.Now,
-                    Cpf = "254.245.912-64",
-                    Phone = "123456789",
-                    IsActive = false,
-                },
-                new() {
-                    FullName = "Maria Eliza",
-                    AddressId = Guid.NewGuid(),
-                    BirthDate = DateTime.Now,
-                    Cpf = "932.307.820-46",
-                    Phone = "0808708009",
-                    IsActive = false,
-                },
-                new() {
-                    FullName = "Mara Maria",
-                    AddressId = Guid.NewGuid(),
-                    BirthDate = DateTime.Now,
-                    Cpf = "312.153.739-38",
-                    Phone = "87575857",
-                    IsActive = true,
-                },
-                new() {
-                    FullName = "Ana Maria",
-                    AddressId = Guid.NewGuid(),
-                    BirthDate = DateTime.Now,
-                    Cpf = "312.153.739-37",
-                    Phone = "87575857",
-                    IsActive = false,
-                },
-            };
-
-            IEnumerable<CollaboratorDto> collaboratorDtos = new List<CollaboratorDto>() {
-                new() {
-                    FullName = "Francisco Augusto",
-                    BirthDate = DateTime.Now,
-                    Cpf = "254.245.912-64",
-                    Phone = "123456789",
-                },
-                new() {
-                    FullName = "Maria Eliza",
-                    BirthDate = DateTime.Now,
-                    Cpf = "932.307.820-46",
-                    Phone = "0808708009",
-                },
-                new() {
-                    FullName = "Mara Maria",
-                    BirthDate = DateTime.Now,
-                    Cpf = "312.153.739-38",
-                    Phone = "87575857",
-                },
-                new() {
-                    FullName = "Ana Maria",
-                    BirthDate = DateTime.Now,
-                    Cpf = "312.153.739-37",
-                    Phone = "87575857",
-                }
-            };
-
-            // Act
-            _collaborator
-                .Setup(x => x.Get(It.IsAny<Expression<Func<Collaborator, bool>>>()))
-                .Returns((Expression<Func<Collaborator, bool>> predicate)
-                    => Task.FromResult(collaborators.ToList()
-                        .Where(x => !x.IsActive)
-                        .FirstOrDefault(x => x.Cpf == cpf)));
-
-            _mapper
-                .Setup(x => x.Map<CollaboratorDto>(It.IsAny<Collaborator>()))
-                .Returns(collaboratorDtos.FirstOrDefault(x => x.Cpf == cpf));
-
-            var result = _collaboratorService.GetByCpf(cpf);
-
-            // Assert
-            Assert.NotNull(result.Result);
+            Assert.True(result.Result.PageNumber == pageNumber);
         }
 
         [Fact]
-        public async void CheckIfCollaboratorWasUpdatedSucsessfully() {
+        public async void CheckIfCollaboratorWasUpdatedSuccessfully() {
             // Arrange
             UpdateCollaboratorDto updateCollaboratorDto = new() {
                 AddressId = Guid.NewGuid(),
@@ -531,7 +525,7 @@ namespace UnitTest {
         }
 
         [Fact]
-        public async void CheckIfCollaboratorWasNotUpdatedSucsessfully() {
+        public async void CheckIfCollaboratorWasNotUpdatedSuccessfully() {
             // Act
             _collaborator
                 .Setup(x => x.Update(It.IsAny<Collaborator>()))
@@ -541,7 +535,7 @@ namespace UnitTest {
         }
 
         [Fact]
-        public async void CheckIfCollaboratorWasDeletedSucsessfully() {
+        public async void CheckIfCollaboratorWasDeletedSuccessfully() {
             // Act
             _collaborator
                 .Setup(x => x.Get(It.IsAny<Expression<Func<Collaborator, bool>>>()))
@@ -564,12 +558,335 @@ namespace UnitTest {
         }
 
         [Fact]
-        public async void CheckIfCollaboratorWasNotDeletedSucsessfully() {
+        public async void CheckIfCollaboratorWasNotDeletedSuccessfully() {
             // Act
-            _collaborator.Setup(x => x.Delete(It.IsAny<Collaborator>())).Returns(Task.FromResult(false));
+            _collaborator.Setup(x => x.Update(It.IsAny<Collaborator>())).Returns(Task.FromResult(false));
 
             // Assert
-            Assert.False(await _collaboratorService.Delete(It.IsAny<string>()));
+            Assert.False(await _collaboratorService.Deactivate(It.IsAny<string>()));
         }
+
+        [Theory]
+        [InlineData("Francisco Augusto")]
+        public void CheckExistentActiveCollaboratorByName(string fullName) {
+            // Arrange
+            IEnumerable<Collaborator> collaborators = new List<Collaborator>() {
+                new() {
+                    FullName = "Francisco Augusto",
+                    AddressId = Guid.NewGuid(),
+                    BirthDate = DateTime.Now,
+                    Cpf = "254.245.912-64",
+                    Phone = "123456789",
+                    IsActive = false
+                },
+                new() {
+                    FullName = "Maria Eliza",
+                    AddressId = Guid.NewGuid(),
+                    BirthDate = DateTime.Now,
+                    Cpf = "932.307.820-46",
+                    Phone = "0808708009",
+                },
+                new() {
+                    FullName = "Ana Maria",
+                    AddressId = Guid.NewGuid(),
+                    BirthDate = DateTime.Now,
+                    Cpf = "312.153.739-37",
+                    Phone = "87575857",
+                },
+                new() {
+                    FullName = "Igor Silva",
+                    AddressId = Guid.NewGuid(),
+                    BirthDate = DateTime.Now,
+                    Cpf = "578.847.384-57",
+                    Phone = "123456789",
+                }
+            };
+
+            IEnumerable<CollaboratorDto> collaboratorDtos = new List<CollaboratorDto>() {
+                new() {
+                    FullName = "Francisco Augusto",
+                    BirthDate = "10/30/2000",
+                    Cpf = "254.245.912-64",
+                    Phone = "123456789",
+                },
+                new() {
+                    FullName = "Maria Eliza",
+                    BirthDate = "10/30/2000",
+                    Cpf = "932.307.820-46",
+                    Phone = "0808708009",
+                },
+                new() {
+                    FullName = "Ana Maria",
+                    BirthDate = "10/30/2000",
+                    Cpf = "312.153.739-37",
+                    Phone = "87575857",
+                },
+                new() {
+                    FullName = "Igor Silva",
+BirthDate = "10/30/2000",
+                   Cpf = "578.847.384-57",
+                    Phone = "123456789",
+                }
+            };
+
+            // Act
+            _collaborator
+                .Setup(x => x.Get(It.IsAny<Expression<Func<Collaborator, bool>>>()))
+                .Returns((Expression<Func<Collaborator, bool>> predicate)
+                    => Task.FromResult(collaborators.ToList()
+                        .Where(x => x.IsActive)
+                        .FirstOrDefault(x => x.FullName == fullName)));
+
+            _mapper
+                .Setup(x => x.Map<CollaboratorDto>(It.IsAny<Collaborator>()))
+                .Returns(collaboratorDtos.FirstOrDefault(x => x.FullName == fullName));
+
+            var result = _collaboratorService.GetByName(fullName);
+
+            // Assert
+            Assert.NotNull(result.Result);
+        }
+
+        [Theory]
+        [InlineData("Jose Augusto")]
+        public void CheckNullActiveCollaboratorByName(string fullName) {
+            // Arrange
+            IEnumerable<Collaborator> collaborators = new List<Collaborator>() {
+                new() {
+                    FullName = "Francisco Augusto",
+                    AddressId = Guid.NewGuid(),
+                    BirthDate = DateTime.Now,
+                    Cpf = "254.245.912-64",
+                    Phone = "123456789",
+                    IsActive = false
+                },
+                new() {
+                    FullName = "Maria Eliza",
+                    AddressId = Guid.NewGuid(),
+                    BirthDate = DateTime.Now,
+                    Cpf = "932.307.820-46",
+                    Phone = "0808708009",
+                },
+                new() {
+                    FullName = "Ana Maria",
+                    AddressId = Guid.NewGuid(),
+                    BirthDate = DateTime.Now,
+                    Cpf = "312.153.739-37",
+                    Phone = "87575857",
+                },
+                new() {
+                    FullName = "Igor Silva",
+                    AddressId = Guid.NewGuid(),
+                    BirthDate = DateTime.Now,
+                    Cpf = "578.847.384-57",
+                    Phone = "123456789",
+                }
+            };
+
+            IEnumerable<CollaboratorDto> collaboratorDtos = new List<CollaboratorDto>() {
+                new() {
+                    FullName = "Francisco Augusto",
+                    BirthDate = "10/30/2000",
+                    Cpf = "254.245.912-64",
+                    Phone = "123456789",
+                },
+                new() {
+                    FullName = "Maria Eliza",
+                    BirthDate = "10/30/2000",
+                    Cpf = "932.307.820-46",
+                    Phone = "0808708009",
+                },
+                new() {
+                    FullName = "Ana Maria",
+                    BirthDate = "10/30/2000",
+                    Cpf = "312.153.739-37",
+                    Phone = "87575857",
+                },
+                new() {
+                    FullName = "Igor Silva",
+                    BirthDate = "10/30/2000",
+                    Cpf = "578.847.384-57",
+                    Phone = "123456789",
+                }
+            };
+
+            // Act
+            _collaborator
+                .Setup(x => x.Get(It.IsAny<Expression<Func<Collaborator, bool>>>()))
+                .Returns((Expression<Func<Collaborator, bool>> predicate)
+                    => Task.FromResult(collaborators
+                    .Where(x => x.IsActive).ToList().FirstOrDefault(x => x.FullName == fullName)));
+
+            _mapper
+                .Setup(x => x.Map<CollaboratorDto>(It.IsAny<Collaborator>()))
+                .Returns(collaboratorDtos.FirstOrDefault(x => x.FullName == fullName));
+
+            var result = _collaboratorService.GetByName(fullName);
+
+            // Assert
+            Assert.Null(result.Result);
+        }
+
+        [Theory]
+        [InlineData("Francisco Augusto")]
+        public void CheckExistentDeactivatedCollaboratorByName(string fullName) {
+            // Arrange
+            IEnumerable<Collaborator> collaborators = new List<Collaborator>() {
+                new() {
+                    FullName = "Francisco Augusto",
+                    AddressId = Guid.NewGuid(),
+                    BirthDate = DateTime.Now,
+                    Cpf = "254.245.912-64",
+                    Phone = "123456789",
+                    IsActive = false
+                },
+                new() {
+                    FullName = "Maria Eliza",
+                    AddressId = Guid.NewGuid(),
+                    BirthDate = DateTime.Now,
+                    Cpf = "932.307.820-46",
+                    Phone = "0808708009",
+                },
+                new() {
+                    FullName = "Ana Maria",
+                    AddressId = Guid.NewGuid(),
+                    BirthDate = DateTime.Now,
+                    Cpf = "312.153.739-37",
+                    Phone = "87575857",
+                },
+                new() {
+                    FullName = "Igor Silva",
+                    AddressId = Guid.NewGuid(),
+                    BirthDate = DateTime.Now,
+                    Cpf = "578.847.384-57",
+                    Phone = "123456789",
+                }
+            };
+
+            IEnumerable<CollaboratorDto> collaboratorDtos = new List<CollaboratorDto>() {
+                new() {
+                    FullName = "Francisco Augusto",
+                    BirthDate = "10/30/2000",
+                    Cpf = "254.245.912-64",
+                    Phone = "123456789",
+                },
+                new() {
+                    FullName = "Maria Eliza",
+                    BirthDate = "10/30/2000",
+                    Cpf = "932.307.820-46",
+                    Phone = "0808708009",
+                },
+                new() {
+                    FullName = "Ana Maria",
+                    BirthDate = "10/30/2000",
+                    Cpf = "312.153.739-37",
+                    Phone = "87575857",
+                },
+                new() {
+                    FullName = "Igor Silva",
+                    BirthDate = "10/30/2000",
+                    Cpf = "578.847.384-57",
+                    Phone = "123456789",
+                }
+            };
+
+            // Act
+            _collaborator
+                .Setup(x => x.Get(It.IsAny<Expression<Func<Collaborator, bool>>>()))
+                .Returns((Expression<Func<Collaborator, bool>> predicate)
+                    => Task.FromResult(collaborators.ToList()
+                        .Where(x => !x.IsActive)
+                        .FirstOrDefault(x => x.FullName == fullName)));
+
+            _mapper
+                .Setup(x => x.Map<CollaboratorDto>(It.IsAny<Collaborator>()))
+                .Returns(collaboratorDtos.FirstOrDefault(x => x.FullName == fullName));
+
+            var result = _collaboratorService.GetByName(fullName);
+
+            // Assert
+            Assert.NotNull(result.Result);
+        }
+
+        [Theory]
+        [InlineData("Jose Augusto")]
+        public void CheckNullDeactivatedCollaboratorByName(string fullName) {
+            // Arrange
+            IEnumerable<Collaborator> collaborators = new List<Collaborator>() {
+                new() {
+                    FullName = "Francisco Augusto",
+                    AddressId = Guid.NewGuid(),
+                    BirthDate = DateTime.Now,
+                    Cpf = "254.245.912-64",
+                    Phone = "123456789",
+                    IsActive = false
+                },
+                new() {
+                    FullName = "Maria Eliza",
+                    AddressId = Guid.NewGuid(),
+                    BirthDate = DateTime.Now,
+                    Cpf = "932.307.820-46",
+                    Phone = "0808708009",
+                },
+                new() {
+                    FullName = "Ana Maria",
+                    AddressId = Guid.NewGuid(),
+                    BirthDate = DateTime.Now,
+                    Cpf = "312.153.739-37",
+                    Phone = "87575857",
+                },
+                new() {
+                    FullName = "Igor Silva",
+                    AddressId = Guid.NewGuid(),
+                    BirthDate = DateTime.Now,
+                    Cpf = "578.847.384-57",
+                    Phone = "123456789",
+                }
+            };
+
+            IEnumerable<CollaboratorDto> collaboratorDtos = new List<CollaboratorDto>() {
+                new() {
+                    FullName = "Francisco Augusto",
+                    BirthDate = "10/30/2000",
+                    Cpf = "254.245.912-64",
+                    Phone = "123456789",
+                },
+                new() {
+                    FullName = "Maria Eliza",
+                    BirthDate = "10/30/2000",
+                    Cpf = "932.307.820-46",
+                    Phone = "0808708009",
+                },
+                new() {
+                    FullName = "Ana Maria",
+                    BirthDate = "10/30/2000",
+                    Cpf = "312.153.739-37",
+                    Phone = "87575857",
+                },
+                new() {
+                    FullName = "Igor Silva",
+                    BirthDate = "10/30/2000",
+                    Cpf = "578.847.384-57",
+                    Phone = "123456789",
+                }
+            };
+
+            // Act
+            _collaborator
+                .Setup(x => x.Get(It.IsAny<Expression<Func<Collaborator, bool>>>()))
+                .Returns((Expression<Func<Collaborator, bool>> predicate)
+                    => Task.FromResult(collaborators
+                    .Where(x => !x.IsActive).ToList().FirstOrDefault(x => x.FullName == fullName)));
+
+            _mapper
+                .Setup(x => x.Map<CollaboratorDto>(It.IsAny<Collaborator>()))
+                .Returns(collaboratorDtos.FirstOrDefault(x => x.FullName == fullName));
+
+            var result = _collaboratorService.GetByName(fullName);
+
+            // Assert
+            Assert.Null(result.Result);
+        }
+
     }
 }
