@@ -4,6 +4,72 @@
         <name>LogInApi</name>
     </assembly>
     <members>
+        <member name="M:LogInApi.Controllers.AddressController.GetAddressesPaged(System.Int32,System.Int32,LogInApi.Enums.OrderAddressColumn,LogInApi.Enums.OrderType)">
+            <summary>
+            This method returns a PagedList of active Addresses
+            </summary>
+            <response code="200">Returns the PagedList with OK status</response>
+            <response code="400">Returns an ERROR status due to invalid parameters</response>
+        </member>
+        <member name="M:LogInApi.Controllers.AddressController.GetDeactivatedAddressesPaged(System.Int32,System.Int32,LogInApi.Enums.OrderAddressColumn,LogInApi.Enums.OrderType)">
+            <summary>
+            This method returns a PagedList of deactivated Addresses
+            </summary>
+            <response code="200">Returns the PagedList with OK status</response>
+            <response code="400">Returns an ERROR status due to invalid parameters</response>
+        </member>
+        <member name="M:LogInApi.Controllers.AddressController.GetAddress(System.Guid)">
+            <summary>
+            This method returns an active Address by Id
+            </summary>
+            <response code="200">Returns the Address with OK status</response>
+            <response code="404">Returns an ERROR status due to Address not found</response>
+        </member>
+        <member name="M:LogInApi.Controllers.AddressController.GetDeactivatedAddress(System.Guid)">
+            <summary>
+            This method returns a deactivated Address by Id
+            </summary>
+            <response code="200">Returns the Collaborator with OK status</response>
+            <response code="404">Returns an ERROR status due to Address not found</response>
+        </member>
+        <member name="M:LogInApi.Controllers.AddressController.Post(LogInApi.Dtos.CreateAddressDto)">
+            <summary>
+            This method creates a new Address
+            </summary>
+            <response code="200">Returns the Address with OK status</response>
+            <response code="400">Returns an ERROR status due to validation error</response>
+        </member>
+        <member name="M:LogInApi.Controllers.AddressController.Put(System.Guid,LogInApi.Dtos.UpdateAddressDto)">
+            <summary>
+            This method updates an Address
+            </summary>
+            <remarks>
+            This method only searchs for active Addresses.
+            </remarks>
+            <response code="204">Returns an OK status with no content</response>
+            <response code="400">Returns an ERROR status due to validation error</response>
+            <response code="404">Returns an ERROR status due to Address not found</response>
+        </member>
+        <member name="M:LogInApi.Controllers.AddressController.Deactivate(System.Guid)">
+            <summary>
+            This method deactivates a Collaborator
+            </summary>
+            <remarks>
+            This method only searchs for active Addresses.
+            </remarks>
+            <response code="204">Returns an OK status with no content</response>
+            <response code="404">Returns an ERROR status due to Address not found</response>
+        </member>
+        <member name="M:LogInApi.Controllers.AddressController.Activate(System.Guid)">
+            <summary>
+            This method activates a Collaborator
+            </summary>
+            <remarks>
+            This method only searchs for deactivated Addresses.
+            </remarks>
+            <response code="204">Returns an OK status with no content</response>
+            <response code="404">Returns an ERROR status due to Address not found</response>
+        </member>
         <member name="M:LogInApi.Controllers.CollaboratorController.GetCollaboratorsPaged(System.Int32,System.Int32,LogInApi.Enums.OrderCollaboratorColumn,LogInApi.Enums.OrderType)">
             <summary>
             This method returns a PagedList of active Collaborators
@@ -48,7 +114,7 @@
         </member>
         <member name="M:LogInApi.Controllers.CollaboratorController.Post(LogInApi.Dtos.CreateCollaboratorDto)">
             <summary>
-            This method creates a new Collaborator
+            This method creates a new Collaborator and returns the created Collaborator
             </summary>
             <remarks>
             All fields can be edited.
@@ -91,6 +157,123 @@
             </remarks>
             <response code="204">Returns an OK status with no content</response>
             <response code="404">Returns an ERROR status due to collaborator not found</response>
+        </member>
+        <member name="P:LogInApi.Dtos.AddressDto.Id">
+            <summary>
+            Guid : Primary key
+            </summary>
+        </member>
+        <member name="P:LogInApi.Dtos.AddressDto.Street">
+            <summary>
+            string : Street name
+            </summary>
+            <example>
+            R. Alexandre Dumas
+            </example>
+        </member>
+        <member name="P:LogInApi.Dtos.AddressDto.Number">
+            <summary>
+            string : House Number
+            </summary>
+            <example>
+            1223
+            </example>
+        </member>
+        <member name="P:LogInApi.Dtos.AddressDto.District">
+            <summary>
+            string : District Name
+            </summary>
+            <example>
+            Centro
+            </example>
+        </member>
+        <member name="P:LogInApi.Dtos.AddressDto.City">
+            <summary>
+            string : City Name
+            </summary>
+            <example>
+            Quixadá
+            </example>
+        </member>
+        <member name="P:LogInApi.Dtos.AddressDto.State">
+            <summary>
+            string : State Name
+            </summary>
+            <example>
+            Ceará
+            </example>
+        </member>
+        <member name="P:LogInApi.Dtos.CreateAddressDto.Number">
+            <summary>
+            string : House Number
+            </summary>
+            <example>
+            1223
+            </example>
+        </member>
+        <member name="P:LogInApi.Dtos.CreateAddressDto.District">
+            <summary>
+            string : District Name
+            </summary>
+            <example>
+            Centro
+            </example>
+        </member>
+        <member name="P:LogInApi.Dtos.CreateAddressDto.City">
+            <summary>
+            string : City Name
+            </summary>
+            <example>
+            Quixadá
+            </example>
+        </member>
+        <member name="P:LogInApi.Dtos.CreateAddressDto.State">
+            <summary>
+            string : State Name
+            </summary>
+            <example>
+            Ceará
+            </example>
+        </member>
+        <member name="P:LogInApi.Dtos.UpdateAddressDto.Street">
+            <summary>
+            string : Street name
+            </summary>
+            <example>
+            R. Alexandre Dumas
+            </example>
+        </member>
+        <member name="P:LogInApi.Dtos.UpdateAddressDto.Number">
+            <summary>
+            string : House Number
+            </summary>
+            <example>
+            1223
+            </example>
+        </member>
+        <member name="P:LogInApi.Dtos.UpdateAddressDto.District">
+            <summary>
+            string : District Name
+            </summary>
+            <example>
+            Centro
+            </example>
+        </member>
+        <member name="P:LogInApi.Dtos.UpdateAddressDto.City">
+            <summary>
+            string : City Name
+            </summary>
+            <example>
+            Quixadá
+            </example>
+        </member>
+        <member name="P:LogInApi.Dtos.UpdateAddressDto.State">
+            <summary>
+            string : State Name
+            </summary>
+            <example>
+            Ceará
+            </example>
         </member>
         <member name="P:LogInApi.Dtos.CollaboratorDto.Cpf">
             <summary>
@@ -210,6 +393,61 @@
         <member name="P:LogInApi.Dtos.UpdateCollaboratorDto.AddressId">
             <summary>
             Guid : Collaborator's Address Object Id.
+            </summary>
+        </member>
+        <member name="P:LogInApi.Models.Address.Id">
+            <summary>
+            Guid : Primary key
+            </summary>
+        </member>
+        <member name="P:LogInApi.Models.Address.Street">
+            <summary>
+            string : Street name
+            </summary>
+            <example>
+            R. Alexandre Dumas
+            </example>
+        </member>
+        <member name="P:LogInApi.Models.Address.Number">
+            <summary>
+            string : House Number
+            </summary>
+            <example>
+            1223
+            </example>
+        </member>
+        <member name="P:LogInApi.Models.Address.District">
+            <summary>
+            string : District Name
+            </summary>
+            <example>
+            Centro
+            </example>
+        </member>
+        <member name="P:LogInApi.Models.Address.City">
+            <summary>
+            string : City Name
+            </summary>
+            <example>
+            Quixadá
+            </example>
+        </member>
+        <member name="P:LogInApi.Models.Address.State">
+            <summary>
+            string : State Name
+            </summary>
+            <example>
+            Ceará
+            </example>
+        </member>
+        <member name="P:LogInApi.Models.Address.Collaborators">
+            <summary>
+            IEnumerable of Collaborator : List of Collaborators related to this address
+            </summary>
+        </member>
+        <member name="P:LogInApi.Models.Address.IsActive">
+            <summary>
+            bool : Active state bool
             </summary>
         </member>
         <member name="T:LogInApi.Models.Collaborator">

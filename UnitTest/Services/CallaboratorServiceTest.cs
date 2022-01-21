@@ -92,9 +92,9 @@ namespace UnitTest {
                     BirthDate = DateTime.Now,
                     Cpf = "254.245.912-64",
                     Phone = "123456789",
-                    IsActive = false
                 },
                 new() {
+                    IsActive = false,
                     FullName = "Maria Eliza",
                     AddressId = Guid.NewGuid(),
                     BirthDate = DateTime.Now,
@@ -577,7 +577,7 @@ namespace UnitTest {
                     BirthDate = DateTime.Now,
                     Cpf = "254.245.912-64",
                     Phone = "123456789",
-                    IsActive = false
+
                 },
                 new() {
                     FullName = "Maria Eliza",
@@ -585,6 +585,7 @@ namespace UnitTest {
                     BirthDate = DateTime.Now,
                     Cpf = "932.307.820-46",
                     Phone = "0808708009",
+                    IsActive = false
                 },
                 new() {
                     FullName = "Ana Maria",
@@ -623,8 +624,8 @@ namespace UnitTest {
                 },
                 new() {
                     FullName = "Igor Silva",
-BirthDate = "10/30/2000",
-                   Cpf = "578.847.384-57",
+                    BirthDate = "10/30/2000",
+                    Cpf = "578.847.384-57",
                     Phone = "123456789",
                 }
             };
