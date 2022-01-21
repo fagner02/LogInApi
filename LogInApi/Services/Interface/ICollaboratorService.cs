@@ -5,6 +5,7 @@ using LogInApi.Enums;
 
 namespace LogInApi.Services {
     public interface ICollaboratorService {
+        Task<bool> Activate(string cpf);
         Task<CollaboratorDto> Create(CreateCollaboratorDto collaborator);
         Task<bool> Deactivate(string cpf);
         Task<Response<CollaboratorDto>> GetAllDeactivatedPaged(int pageNumber, int pageSize, OrderCollaboratorColumn orderColumn, OrderType orderType);

@@ -45,13 +45,14 @@ namespace LogInApi.Services {
         }
 
         public async Task<CollaboratorDto> Create(CreateCollaboratorDto collaborator) {
-            if (!Validation.ValidateAge(collaborator.BirthDate)) {
+            Collaborator temp = _mapper.Map<Collaborator>(collaborator);
+            if (!Validation.ValidateAge(temp.BirthDate)) {
                 throw new Exception("Collaborator must be 18 years old or older.");
             }
-            if (!Validation.ValidateCpf(collaborator.Cpf)) {
+            if (!Validation.ValidateCpf(temp.Cpf)) {
                 throw new Exception("Invalid CPF.");
             }
-            Collaborator result = await _collaborator.Create(_mapper.Map<Collaborator>(collaborator));
+            Collaborator result = await _collaborator.Create(temp);
             return _mapper.Map<CollaboratorDto>(result);
         }
 
@@ -80,10 +81,10 @@ namespace LogInApi.Services {
             if (temp == null) {
                 return false;
             }
-            temp.AddressId = collaborator.AddressId;
-            temp.FullName = collaborator.FullName;
-            temp.Phone = collaborator.Phone;
-            temp.Sex = collaborator.Sex;
+            temp.AddressId = collaborator.AddressId ?? temp.AddressId;
+            temp.FullName = collaborator.FullName ?? temp.FullName;
+            temp.Phone = collaborator.Phone ?? temp.Phone;
+            temp.Sex = collaborator.Sex ?? temp.Sex;
             await _collaborator.Update(temp);
             return true;
         }
@@ -97,6 +98,18 @@ namespace LogInApi.Services {
                 return false;
             }
             temp.IsActive = false;
+            return await _collaborator.Update(temp);
+        }
+
+        public async Task<bool> Activate(string cpf) {
+            Collaborator temp = await _collaborator.Get(x => x.Cpf == cpf);
+            if (temp == null) {
+                return false;
+            }
+            if (temp.IsActive == true) {
+                return false;
+            }
+            temp.IsActive = true;
             return await _collaborator.Update(temp);
         }
     }

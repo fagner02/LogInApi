@@ -6,6 +6,7 @@ using LogInApi.Enums;
 
 namespace LogInApi.Services {
     public interface IAddressService {
+        Task<bool> Activate(Guid id);
         Task Create(CreateAddressDto address);
         Task<bool> Deactivate(Guid id);
         Task<AddressDto> Get(Guid id);

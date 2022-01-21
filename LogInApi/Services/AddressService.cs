@@ -80,5 +80,17 @@ namespace LogInApi.Services {
             temp.IsActive = false;
             return await _address.Update(temp);
         }
+
+        public async Task<bool> Activate(Guid id) {
+            Address temp = await _address.Get(id);
+            if (temp == null) {
+                return false;
+            }
+            if (temp.IsActive == true) {
+                return false;
+            }
+            temp.IsActive = true;
+            return await _address.Update(temp);
+        }
     }
 }

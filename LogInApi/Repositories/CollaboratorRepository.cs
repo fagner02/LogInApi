@@ -21,6 +21,7 @@ namespace LogInApi.Repositories {
             OrderCollaboratorColumn orderColumn = OrderCollaboratorColumn.FullName, OrderType orderType = OrderType.ASC
         ) {
             return await _data.Collaborators
+                .Where("IsActive == true")
                 .Include(x => x.Address)
                 .OrderBy($"{orderColumn} {orderType}")
                 .ToPagedListAsync(pageNumber, pageSize);
@@ -44,13 +45,16 @@ namespace LogInApi.Repositories {
         }
 
         public async Task<Collaborator> Get(Expression<Func<Collaborator, bool>> predicate) {
-            return await _data.Collaborators.Include(x => x.Address).FirstOrDefaultAsync(predicate);
+            return await _data.Collaborators
+                .Where("IsActive == true")
+                .Include(x => x.Address)
+                .FirstOrDefaultAsync(predicate);
         }
 
         public async Task<Collaborator> GetDeactivated(Expression<Func<Collaborator, bool>> predicate) {
             return await _data.Collaborators
-                .Include(x => x.Address)
                 .Where("IsActive == false")
+                .Include(x => x.Address)
                 .FirstOrDefaultAsync(predicate);
         }
 

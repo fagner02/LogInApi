@@ -16,6 +16,11 @@ namespace LogInApi.Controllers {
             _collaboratorService = collaboratorService;
         }
 
+        /// <summary>
+        /// This method returns a PagedList of active Collaborators
+        /// </summary>
+        /// <response code="200">Returns the PagedList with OK status</response>
+        /// <response code="400">Returns an ERROR status due to invalid parameters</response>
         [HttpGet("Paged")]
         public async Task<ActionResult> GetCollaboratorsPaged(
             [FromQuery] int pageNumber,
@@ -23,9 +28,18 @@ namespace LogInApi.Controllers {
             [FromQuery] OrderCollaboratorColumn orderColumn,
             [FromQuery] OrderType orderType = OrderType.ASC
         ) {
-            return Ok(await _collaboratorService.GetAllPaged(pageNumber, pageSize, orderColumn, orderType));
+            try {
+                return Ok(await _collaboratorService.GetAllPaged(pageNumber, pageSize, orderColumn, orderType));
+            } catch (Exception e) {
+                return BadRequest(e.Message);
+            }
         }
 
+        /// <summary>
+        /// This method returns a PagedList of deactivated Collaborators
+        /// </summary>
+        /// <response code="200">Returns the PagedList with OK status</response>
+        /// <response code="400">Returns an ERROR status due to invalid parameters</response>
         [HttpGet("Deactivated/Paged")]
         public async Task<ActionResult> GetDeactivatedCollaboratorsPaged(
             [FromQuery] int pageNumber,
@@ -36,26 +50,71 @@ namespace LogInApi.Controllers {
             return Ok(await _collaboratorService.GetAllDeactivatedPaged(pageNumber, pageSize, orderColumn, orderType));
         }
 
-        [HttpGet("{cpf}")]
+        /// <summary>
+        /// This method returns an active Collaborator by Cpf
+        /// </summary>
+        /// <response code="200">Returns the Collaborator with OK status</response>
+        /// <response code="404">Returns an ERROR status due to collaborator not found</response>
+        [HttpGet("ByCpf/{cpf}")]
         public async Task<ActionResult<CollaboratorDto>> Get(string cpf) {
-            return Ok(await _collaboratorService.GetByCpf(cpf));
+            CollaboratorDto result = await _collaboratorService.GetByCpf(cpf);
+            if (result == null) {
+                return NotFound();
+            }
+            return Ok(result);
         }
 
-        [HttpGet("Deactivated/{cpf}")]
+        /// <summary>
+        /// This method returns a deactivated Collaborator by Cpf
+        /// </summary>
+        /// <response code="200">Returns the Collaborator with OK status</response>
+        /// <response code="404">Returns an ERROR status due to collaborator not found</response>
+        [HttpGet("Deactivated/ByCpf/{cpf}")]
         public async Task<ActionResult<CollaboratorDto>> GetDeactivated(string cpf) {
-            return Ok(await _collaboratorService.GetByCpfDeactivated(cpf));
+            CollaboratorDto result = await _collaboratorService.GetByCpfDeactivated(cpf);
+            if (result == null) {
+                return NotFound();
+            }
+            return Ok(result);
         }
 
-        [HttpGet("{fullName}")]
+        /// <summary>
+        /// This method returns an active Collaborator by Name
+        /// </summary>
+        /// <response code="200">Returns the Collaborator with OK status</response>
+        /// <response code="404">Returns an ERROR status due to collaborator not found</response>
+        [HttpGet("ByName/{fullName}")]
         public async Task<ActionResult<CollaboratorDto>> GetByName(string fullName) {
-            return Ok(await _collaboratorService.GetByName(fullName));
+            CollaboratorDto result = await _collaboratorService.GetByName(fullName);
+            if (result == null) {
+                return NotFound();
+            }
+            return Ok(result);
         }
 
-        [HttpGet("Deactivated/{fullName}")]
+        /// <summary>
+        /// This method returns a deactivated Collaborator by Name
+        /// </summary>
+        /// <response code="200">Returns the Collaborator with OK status</response>
+        /// <response code="404">Returns an ERROR status due to collaborator not found</response>
+        [HttpGet("Deactivated/ByName/{fullName}")]
         public async Task<ActionResult<CollaboratorDto>> GetByNameDeactivated(string fullName) {
-            return Ok(await _collaboratorService.GetByNameDeactivated(fullName));
+            CollaboratorDto result = await _collaboratorService.GetByNameDeactivated(fullName);
+            if (result == null) {
+                return NotFound();
+            }
+            return Ok(result);
         }
 
+        /// <summary>
+        /// This method creates a new Collaborator and returns the created Collaborator
+        /// </summary>
+        /// <remarks>
+        /// All fields can be edited.
+        /// Cpf is required and must be valid.
+        /// </remarks>
+        /// <response code="200">Returns the Collaborator with OK status</response>
+        /// <response code="400">Returns an ERROR status due to validation error</response>
         [HttpPost]
         public async Task<ActionResult<CollaboratorDto>> Post([FromBody] CreateCollaboratorDto collaborator) {
             try {
@@ -69,6 +128,17 @@ namespace LogInApi.Controllers {
             }
         }
 
+        /// <summary>
+        /// This method updates a Collaborator
+        /// </summary>
+        /// <remarks>
+        /// This method uses Cpf to search for the Collaborator.
+        /// This method only searchs for active Collaborators.
+        /// Only FullName, Phone, Sex and AddressId can be updated.
+        /// </remarks>
+        /// <response code="204">Returns an OK status with no content</response>
+        /// <response code="400">Returns an ERROR status due to validation error</response>
+        /// <response code="404">Returns an ERROR status due to collaborator not found</response>
         [HttpPut("{cpf}")]
         public async Task<IActionResult> Put(string cpf, UpdateCollaboratorDto collaborator) {
             try {
@@ -85,9 +155,35 @@ namespace LogInApi.Controllers {
             return NoContent();
         }
 
+        /// <summary>
+        /// This method deactivates a Collaborator
+        /// </summary>
+        /// <remarks>
+        /// This method uses Cpf to search for the Collaborator.
+        /// This method only searchs for active Collaborators.
+        /// </remarks>
+        /// <response code="204">Returns an OK status with no content</response>
+        /// <response code="404">Returns an ERROR status due to collaborator not found</response>
         [HttpDelete("{cpf}")]
         public async Task<IActionResult> Deactivate(string cpf) {
             if (!await _collaboratorService.Deactivate(cpf)) {
+                return NotFound();
+            }
+            return NoContent();
+        }
+
+        /// <summary>
+        /// This method activates a Collaborator
+        /// </summary>
+        /// <remarks>
+        /// This method uses Cpf to search for the Collaborator.
+        /// This method only searchs for deactivated Collaborators.
+        /// </remarks>
+        /// <response code="204">Returns an OK status with no content</response>
+        /// <response code="404">Returns an ERROR status due to collaborator not found</response>
+        [HttpPut("Deactivated/{cpf}")]
+        public async Task<IActionResult> Activate(string cpf) {
+            if (!await _collaboratorService.Activate(cpf)) {
                 return NotFound();
             }
             return NoContent();
