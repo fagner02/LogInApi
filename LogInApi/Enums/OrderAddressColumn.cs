@@ -2,7 +2,7 @@ namespace LogInApi.Enums {
     public enum OrderAddressColumn {
         Id,
         Street,
-        Num,
+        Number,
         District,
         City,
         State

@@ -5,6 +5,7 @@ namespace LogInApi.Enums {
         Sex,
         Phone,
         Address,
+        AddressId,
         BirthDate
     }
 }
