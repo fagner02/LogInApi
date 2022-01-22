@@ -17,23 +17,57 @@ namespace LogInApi.Repositories {
         }
 
         public async Task<IPagedList<Collaborator>> GetAllPaged(
-            int pageNumber, int pageSize,
-            OrderCollaboratorColumn orderColumn = OrderCollaboratorColumn.FullName, OrderType orderType = OrderType.ASC
+            int pageNumber = 1,
+            int pageSize = 5,
+            OrderCollaboratorColumn orderColumn = OrderCollaboratorColumn.FullName,
+            OrderType orderType = OrderType.ASC,
+            OrderCollaboratorColumn searchColumn = OrderCollaboratorColumn.FullName,
+            string search = ""
         ) {
+            string searchQuery = "";
+            if (searchColumn == OrderCollaboratorColumn.Address) {
+                searchQuery = $"&& Address.Street.Contains(\"{search}\") || " +
+                            $"Address.City.Contains(\"{search}\") || " +
+                            $"Address.State.Contains(\"{search}\") || " +
+                            $"Address.Number.Contains(\"{search}\") || " +
+                            $"Address.District.Contains(\"{search}\")";
+            } else if (searchColumn == OrderCollaboratorColumn.BirthDate || searchColumn == OrderCollaboratorColumn.AddressId) {
+                searchQuery = $"&& {searchColumn}.ToString().Contains(\"{search}\")";
+            } else {
+                searchQuery = $"&& {searchColumn}.Contains(\"{search}\")";
+            }
+
             return await _data.Collaborators
-                .Where("IsActive == true")
+                .Where($"IsActive == true {searchQuery}")
                 .Include(x => x.Address)
                 .OrderBy($"{orderColumn} {orderType}")
                 .ToPagedListAsync(pageNumber, pageSize);
         }
 
         public async Task<IPagedList<Collaborator>> GetAllDeactivatedPaged(
-            int pageNumber, int pageSize,
-            OrderCollaboratorColumn orderColumn, OrderType orderType
+            int pageNumber = 1,
+            int pageSize = 5,
+            OrderCollaboratorColumn orderColumn = OrderCollaboratorColumn.FullName,
+            OrderType orderType = OrderType.ASC,
+            OrderCollaboratorColumn searchColumn = OrderCollaboratorColumn.FullName,
+            string search = ""
         ) {
+            string searchQuery = "";
+            if (searchColumn == OrderCollaboratorColumn.Address) {
+                searchQuery = $"&& Address.Street.Contains(\"{search}\") || " +
+                            $"Address.City.Contains(\"{search}\") || " +
+                            $"Address.State.Contains(\"{search}\") || " +
+                            $"Address.Number.Contains(\"{search}\") || " +
+                            $"Address.District.Contains(\"{search}\")";
+            } else if (searchColumn == OrderCollaboratorColumn.BirthDate || searchColumn == OrderCollaboratorColumn.AddressId) {
+                searchQuery = $"&& {searchColumn}.ToString().Contains(\"{search}\")";
+            } else {
+                searchQuery = $"&& {searchColumn}.Contains(\"{search}\")";
+            }
+
             return await _data.Collaborators
+                .Where($"IsActive == false {searchQuery}")
                 .Include(x => x.Address)
-                .Where("IsActive == false")
                 .OrderBy($"{orderColumn} {orderType}")
                 .ToPagedListAsync(pageNumber, pageSize);
         }

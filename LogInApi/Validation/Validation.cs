@@ -44,5 +44,17 @@ namespace LogInApi.Validations {
 
             return true;
         }
+
+        public static bool ValidateSex(string sex) {
+            return !Regex.IsMatch(sex, "[^MFI]");
+        }
+
+        public static bool ValidatePhone(string phone) {
+            return
+                Regex.Match(phone, @"\d{2}?\s*\(?\d{2}?\)?\s*\d?\d\d\d\d\-?\s*\d\d\d\d").Length == phone.Length ||
+                Regex.Match(phone, @"\(?\d{2}?\)?\s*\d?\d\d\d\d\-?\s*\d\d\d\d").Length == phone.Length ||
+                Regex.Match(phone, @"\d{2}?\s*\d?\d\d\d\d\-?\s*\d\d\d\d").Length == phone.Length ||
+                Regex.Match(phone, @"\d?\d\d\d\d\-?\s*\d\d\d\d").Length == phone.Length;
+        }
     }
 }

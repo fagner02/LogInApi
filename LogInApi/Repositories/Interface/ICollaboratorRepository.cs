@@ -9,8 +9,8 @@ namespace LogInApi.Repositories {
     public interface ICollaboratorRepository {
         Task<Collaborator> Create(Collaborator collaborator);
         Task<Collaborator> Get(Expression<Func<Collaborator, bool>> predicate);
-        Task<IPagedList<Collaborator>> GetAllDeactivatedPaged(int pageNumber, int pageSize, OrderCollaboratorColumn orderColumn, OrderType orderType);
-        Task<IPagedList<Collaborator>> GetAllPaged(int pageNumber, int pageSize, OrderCollaboratorColumn orderColumn = OrderCollaboratorColumn.FullName, OrderType orderType = OrderType.ASC);
+        Task<IPagedList<Collaborator>> GetAllDeactivatedPaged(int pageNumber = 1, int pageSize = 5, OrderCollaboratorColumn orderColumn = OrderCollaboratorColumn.FullName, OrderType orderType = OrderType.ASC, OrderCollaboratorColumn searchColumn = OrderCollaboratorColumn.FullName, string search = "");
+        Task<IPagedList<Collaborator>> GetAllPaged(int pageNumber = 1, int pageSize = 5, OrderCollaboratorColumn orderColumn = OrderCollaboratorColumn.FullName, OrderType orderType = OrderType.ASC, OrderCollaboratorColumn searchColumn = OrderCollaboratorColumn.FullName, string search = "");
         Task<Collaborator> GetDeactivated(Expression<Func<Collaborator, bool>> predicate);
         Task<bool> Update(Collaborator collaborator);
     }

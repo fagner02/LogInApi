@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Linq;
 using LogInApi.Repositories;
 using LogInApi.Models;
 using LogInApi.Dtos;
@@ -24,10 +23,18 @@ namespace LogInApi.Services {
             int pageNumber,
             int pageSize,
             OrderCollaboratorColumn orderColumn,
-            OrderType orderType
+            OrderType orderType,
+            OrderCollaboratorColumn searchColumn,
+            string search
         ) {
             var result = await _collaborator.GetAllPaged(
-                pageNumber, pageSize, orderColumn, orderType);
+                pageNumber,
+                pageSize,
+                orderColumn,
+                orderType,
+                searchColumn,
+                search
+            );
             Response<CollaboratorDto> res = new(result, _mapper.Map<IEnumerable<CollaboratorDto>>(result));
             return res;
         }
@@ -36,10 +43,18 @@ namespace LogInApi.Services {
             int pageNumber,
             int pageSize,
             OrderCollaboratorColumn orderColumn,
-            OrderType orderType
+            OrderType orderType,
+            OrderCollaboratorColumn searchColumn,
+            string search
         ) {
             var result = await _collaborator.GetAllDeactivatedPaged(
-                pageNumber, pageSize, orderColumn, orderType);
+                pageNumber,
+                pageSize,
+                orderColumn,
+                orderType,
+                searchColumn,
+                search
+            );
             Response<CollaboratorDto> res = new(result, _mapper.Map<IEnumerable<CollaboratorDto>>(result));
             return res;
         }
@@ -51,6 +66,12 @@ namespace LogInApi.Services {
             }
             if (!Validation.ValidateCpf(temp.Cpf)) {
                 throw new Exception("Invalid CPF.");
+            }
+            if (!Validation.ValidatePhone(temp.Phone)) {
+                throw new Exception("Invalid Phone. Check invalid symbols and whitespaces.");
+            }
+            if (!Validation.ValidateSex(temp.Sex)) {
+                throw new Exception("Invalid Sex character");
             }
             Collaborator result = await _collaborator.Create(temp);
             return _mapper.Map<CollaboratorDto>(result);
@@ -114,7 +135,7 @@ namespace LogInApi.Services {
         }
 
         public async Task<bool> Activate(string cpf) {
-            Collaborator temp = await _collaborator.Get(x => x.Cpf == cpf);
+            Collaborator temp = await _collaborator.GetDeactivated(x => x.Cpf == cpf);
             if (temp == null) {
                 return false;
             }
