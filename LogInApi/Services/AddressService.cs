@@ -6,7 +6,6 @@ using LogInApi.Models;
 using LogInApi.Repositories;
 using LogInApi.Enums;
 using AutoMapper;
-using System.Linq;
 
 namespace LogInApi.Services {
 
@@ -69,11 +68,11 @@ namespace LogInApi.Services {
             if (temp.IsActive == false) {
                 return false;
             }
-            temp.Street = address.Street;
-            temp.City = address.City;
-            temp.Number = address.Number;
-            temp.State = address.State;
-            temp.District = address.District;
+            temp.Street = address.Street ?? temp.Street;
+            temp.City = address.City ?? temp.City;
+            temp.Number = address.Number ?? temp.Number;
+            temp.State = address.State ?? temp.State;
+            temp.District = address.District ?? temp.District;
             return await _address.Update(temp);
         }
 
@@ -90,7 +89,7 @@ namespace LogInApi.Services {
         }
 
         public async Task<bool> Activate(Guid id) {
-            Address temp = await _address.Get(id);
+            Address temp = await _address.GetDeactivated(id);
             if (temp == null) {
                 return false;
             }
