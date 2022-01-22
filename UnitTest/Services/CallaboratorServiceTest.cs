@@ -35,7 +35,7 @@ namespace UnitTest {
                 BirthDate = "10/30/2000",
                 Cpf = "578.847.384-57",
                 Phone = "123456789",
-                Sex = "m"
+                Sex = "I"
             };
 
             Collaborator collaborator = new() {
@@ -51,7 +51,7 @@ namespace UnitTest {
                 BirthDate = new DateTime(2000, 1, 1),
                 Cpf = "578.847.384-57",
                 Phone = "123456789",
-                Sex = "m"
+                Sex = "I"
             };
 
             CollaboratorDto collaboratorDto = new() {
@@ -66,7 +66,7 @@ namespace UnitTest {
                 BirthDate = "10/30/2000",
                 Cpf = "578.847.384-57",
                 Phone = "123456789",
-                Sex = "m"
+                Sex = "I"
             };
 
             // Act
@@ -404,8 +404,10 @@ namespace UnitTest {
         }
 
         [Theory]
-        [InlineData(1, 2, OrderCollaboratorColumn.Cpf, OrderType.ASC)]
+        [InlineData(OrderCollaboratorColumn.FullName, "", 1, 2, OrderCollaboratorColumn.Cpf, OrderType.ASC)]
         public void GetAllCollaboratorsPaged(
+            OrderCollaboratorColumn searchColumn,
+            string search,
             int pageNumber,
             int pageSize,
             OrderCollaboratorColumn orderColumn = OrderCollaboratorColumn.FullName,
@@ -480,14 +482,26 @@ namespace UnitTest {
 
             // Act
             _collaborator
-                .Setup(x => x.GetAllPaged(pageNumber, pageSize, orderColumn, orderType))
+                .Setup(x => x.GetAllPaged(
+                pageNumber,
+                pageSize,
+                orderColumn,
+                orderType,
+                searchColumn,
+                search))
                 .Returns(Task.FromResult(collaborators.ToPagedList()));
 
             _mapper
                 .Setup(x => x.Map<IEnumerable<CollaboratorDto>>(It.IsAny<Collaborator>()))
                 .Returns(collaboratorDtos);
 
-            var result = _collaboratorService.GetAllPaged(pageNumber, pageSize, orderColumn, orderType);
+            var result = _collaboratorService.GetAllPaged(
+                pageNumber,
+                pageSize,
+                orderColumn,
+                orderType,
+                searchColumn,
+                search);
 
             // Assert
             Assert.NotNull(result.Result);

@@ -31,10 +31,13 @@ namespace UnitTest {
 
             // Act
             _collaboratorService.Setup(x =>
-             x.GetAllPaged(It.IsAny<int>(),
+             x.GetAllPaged(
+                It.IsAny<int>(),
                 It.IsAny<int>(),
                 It.IsAny<OrderCollaboratorColumn>(),
-                It.IsAny<OrderType>()))
+                It.IsAny<OrderType>(),
+                It.IsAny<OrderCollaboratorColumn>(),
+                It.IsAny<string>()))
                 .Returns(
                     Task.FromResult(new Response<CollaboratorDto>(
                             collaboratorDtos.ToPagedList(1, 1),
@@ -42,6 +45,8 @@ namespace UnitTest {
                         )));
 
             var response = _controller.GetCollaboratorsPaged(
+                It.IsAny<OrderCollaboratorColumn>(),
+                It.IsAny<string>(),
                 It.IsAny<int>(),
                 It.IsAny<int>(),
                 It.IsAny<OrderCollaboratorColumn>(),
@@ -56,13 +61,18 @@ namespace UnitTest {
         public void CheckGetCollaboratorsPagedUnsuccessfulResponse() {
             // Act
             _collaboratorService.Setup(x =>
-             x.GetAllPaged(It.IsAny<int>(),
+             x.GetAllPaged(
+                It.IsAny<int>(),
                 It.IsAny<int>(),
                 It.IsAny<OrderCollaboratorColumn>(),
-                It.IsAny<OrderType>()))
+                It.IsAny<OrderType>(),
+                It.IsAny<OrderCollaboratorColumn>(),
+                It.IsAny<string>()))
                 .Returns(It.IsAny<Task<Response<CollaboratorDto>>>());
 
             var response = _controller.GetCollaboratorsPaged(
+                It.IsAny<OrderCollaboratorColumn>(),
+                It.IsAny<string>(),
                 It.IsAny<int>(),
                 It.IsAny<int>(),
                 It.IsAny<OrderCollaboratorColumn>(),
@@ -81,10 +91,13 @@ namespace UnitTest {
 
             // Act
             _collaboratorService.Setup(x =>
-             x.GetAllDeactivatedPaged(It.IsAny<int>(),
+             x.GetAllDeactivatedPaged(
+                It.IsAny<int>(),
                 It.IsAny<int>(),
                 It.IsAny<OrderCollaboratorColumn>(),
-                It.IsAny<OrderType>()))
+                It.IsAny<OrderType>(),
+                It.IsAny<OrderCollaboratorColumn>(),
+                It.IsAny<string>()))
                 .Returns(
                     Task.FromResult(new Response<CollaboratorDto>(
                             collaboratorDtos.ToPagedList(1, 1),
@@ -92,6 +105,8 @@ namespace UnitTest {
                         )));
 
             var response = _controller.GetDeactivatedCollaboratorsPaged(
+                It.IsAny<OrderCollaboratorColumn>(),
+                It.IsAny<string>(),
                 It.IsAny<int>(),
                 It.IsAny<int>(),
                 It.IsAny<OrderCollaboratorColumn>(),
