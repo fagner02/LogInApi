@@ -27,7 +27,7 @@ namespace UnitTest {
         }
 
         [Fact]
-        public void CreateNewCollaborator() {
+        public void CreateNewCollaboratorSuccsessfully() {
             // Arrange
             CreateCollaboratorDto createCollaboratorDto = new() {
                 FullName = "Joao Junior",
@@ -79,6 +79,230 @@ namespace UnitTest {
             // Assert
             Assert.NotNull(result.Result);
             Assert.Equal(collaborator.Cpf, result.Result.Cpf);
+        }
+
+        [Fact]
+        public void CreateNewCollaboratorWithInvalidSexException() {
+            // Arrange
+            CreateCollaboratorDto createCollaboratorDto = new() {
+                FullName = "Joao Junior",
+                AddressId = Guid.NewGuid(),
+                BirthDate = "10/30/2000",
+                Cpf = "578.847.384-57",
+                Phone = "123456789",
+                Sex = "j"
+            };
+
+            Collaborator collaborator = new() {
+                FullName = "Joao Junior",
+                AddressId = Guid.NewGuid(),
+                Address = new() {
+                    Street = "Rua teste",
+                    Number = "123",
+                    City = "Ceará",
+                    State = "CE",
+                    District = "Centro",
+                },
+                BirthDate = new DateTime(2000, 1, 1),
+                Cpf = "578.847.384-57",
+                Phone = "123456789",
+                Sex = "j"
+            };
+
+            CollaboratorDto collaboratorDto = new() {
+                FullName = "Joao Junior",
+                Address = new() {
+                    Street = "Rua teste",
+                    Number = "123",
+                    City = "Ceará",
+                    State = "CE",
+                    District = "Centro",
+                },
+                BirthDate = "10/30/2000",
+                Cpf = "578.847.384-57",
+                Phone = "123456789",
+                Sex = "j"
+            };
+
+            // Act
+            _collaborator.Setup(x => x.Create(It.IsAny<Collaborator>())).Returns(Task.FromResult(collaborator));
+            _mapper.Setup(x => x.Map<Collaborator>(It.IsAny<CreateCollaboratorDto>())).Returns(collaborator);
+            _mapper.Setup(x => x.Map<CollaboratorDto>(It.IsAny<Collaborator>())).Returns(collaboratorDto);
+
+
+            var exception = Assert.ThrowsAsync<Exception>(async () => {
+                var result = await _collaboratorService.Create(createCollaboratorDto);
+            });
+
+            Assert.Equal("Invalid Sex character", exception.Result.Message);
+        }
+
+        [Fact]
+        public void CreateNewCollaboratorWithInvalidCpfException() {
+            // Arrange
+            CreateCollaboratorDto createCollaboratorDto = new() {
+                FullName = "Joao Junior",
+                AddressId = Guid.NewGuid(),
+                BirthDate = "10/30/2000",
+                Cpf = "578.847.384-59",
+                Phone = "123456789",
+                Sex = "I"
+            };
+
+            Collaborator collaborator = new() {
+                FullName = "Joao Junior",
+                AddressId = Guid.NewGuid(),
+                Address = new() {
+                    Street = "Rua teste",
+                    Number = "123",
+                    City = "Ceará",
+                    State = "CE",
+                    District = "Centro",
+                },
+                BirthDate = new DateTime(2000, 1, 1),
+                Cpf = "578.847.384-59",
+                Phone = "123456789",
+                Sex = "I"
+            };
+
+            CollaboratorDto collaboratorDto = new() {
+                FullName = "Joao Junior",
+                Address = new() {
+                    Street = "Rua teste",
+                    Number = "123",
+                    City = "Ceará",
+                    State = "CE",
+                    District = "Centro",
+                },
+                BirthDate = "10/30/2000",
+                Cpf = "578.847.384-59",
+                Phone = "123456789",
+                Sex = "I"
+            };
+
+            // Act
+            _collaborator.Setup(x => x.Create(It.IsAny<Collaborator>())).Returns(Task.FromResult(collaborator));
+            _mapper.Setup(x => x.Map<Collaborator>(It.IsAny<CreateCollaboratorDto>())).Returns(collaborator);
+            _mapper.Setup(x => x.Map<CollaboratorDto>(It.IsAny<Collaborator>())).Returns(collaboratorDto);
+
+
+            var exception = Assert.ThrowsAsync<Exception>(async () => {
+                var result = await _collaboratorService.Create(createCollaboratorDto);
+            });
+
+            Assert.Equal("Invalid CPF.", exception.Result.Message);
+        }
+
+        [Fact]
+        public void CreateNewCollaboratorWithInvalidPhoneException() {
+            // Arrange
+            CreateCollaboratorDto createCollaboratorDto = new() {
+                FullName = "Joao Junior",
+                AddressId = Guid.NewGuid(),
+                BirthDate = "10/30/2000",
+                Cpf = "578.847.384-57",
+                Phone = "88 8 8888 8888",
+                Sex = "I"
+            };
+
+            Collaborator collaborator = new() {
+                FullName = "Joao Junior",
+                AddressId = Guid.NewGuid(),
+                Address = new() {
+                    Street = "Rua teste",
+                    Number = "123",
+                    City = "Ceará",
+                    State = "CE",
+                    District = "Centro",
+                },
+                BirthDate = new DateTime(2000, 1, 1),
+                Cpf = "578.847.384-57",
+                Phone = "88 8 8888 8888",
+                Sex = "I"
+            };
+
+            CollaboratorDto collaboratorDto = new() {
+                FullName = "Joao Junior",
+                Address = new() {
+                    Street = "Rua teste",
+                    Number = "123",
+                    City = "Ceará",
+                    State = "CE",
+                    District = "Centro",
+                },
+                BirthDate = "10/30/2000",
+                Cpf = "578.847.384-57",
+                Phone = "88 8 8888 8888",
+                Sex = "I"
+            };
+
+            // Act
+            _collaborator.Setup(x => x.Create(It.IsAny<Collaborator>())).Returns(Task.FromResult(collaborator));
+            _mapper.Setup(x => x.Map<Collaborator>(It.IsAny<CreateCollaboratorDto>())).Returns(collaborator);
+            _mapper.Setup(x => x.Map<CollaboratorDto>(It.IsAny<Collaborator>())).Returns(collaboratorDto);
+
+
+            var exception = Assert.ThrowsAsync<Exception>(async () => {
+                var result = await _collaboratorService.Create(createCollaboratorDto);
+            });
+
+            Assert.Equal("Invalid Phone. Check invalid symbols and whitespaces.", exception.Result.Message);
+        }
+
+        [Fact]
+        public void CreateNewCollaboratorWithInvalidAgeException() {
+            // Arrange
+            CreateCollaboratorDto createCollaboratorDto = new() {
+                FullName = "Joao Junior",
+                AddressId = Guid.NewGuid(),
+                BirthDate = "10/30/2010",
+                Cpf = "578.847.384-57",
+                Phone = "123456789",
+                Sex = "I"
+            };
+
+            Collaborator collaborator = new() {
+                FullName = "Joao Junior",
+                AddressId = Guid.NewGuid(),
+                Address = new() {
+                    Street = "Rua teste",
+                    Number = "123",
+                    City = "Ceará",
+                    State = "CE",
+                    District = "Centro",
+                },
+                BirthDate = new DateTime(2010, 10, 30),
+                Cpf = "578.847.384-57",
+                Phone = "123456789",
+                Sex = "I"
+            };
+
+            CollaboratorDto collaboratorDto = new() {
+                FullName = "Joao Junior",
+                Address = new() {
+                    Street = "Rua teste",
+                    Number = "123",
+                    City = "Ceará",
+                    State = "CE",
+                    District = "Centro",
+                },
+                BirthDate = "10/30/2010",
+                Cpf = "578.847.384-57",
+                Phone = "123456789",
+                Sex = "I"
+            };
+
+            // Act
+            _collaborator.Setup(x => x.Create(It.IsAny<Collaborator>())).Returns(Task.FromResult(collaborator));
+            _mapper.Setup(x => x.Map<Collaborator>(It.IsAny<CreateCollaboratorDto>())).Returns(collaborator);
+            _mapper.Setup(x => x.Map<CollaboratorDto>(It.IsAny<Collaborator>())).Returns(collaboratorDto);
+
+
+            var exception = Assert.ThrowsAsync<Exception>(async () => {
+                var result = await _collaboratorService.Create(createCollaboratorDto);
+            });
+
+            Assert.Equal("Collaborator must be 18 years old or older.", exception.Result.Message);
         }
 
         [Theory]
