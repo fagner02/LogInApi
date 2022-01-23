@@ -22,9 +22,18 @@ namespace LogInApi.Services {
             int pageNumber,
             int pageSize,
             OrderAddressColumn orderColumn,
-            OrderType orderType
+            OrderType orderType,
+            OrderAddressColumn searchColumn,
+            string search
         ) {
-            var result = await _address.GetAllPaged(pageNumber, pageSize, orderColumn, orderType);
+            var result = await _address.GetAllPaged(
+                pageNumber,
+                pageSize,
+                orderColumn,
+                orderType,
+                searchColumn,
+                search
+            );
             Response<AddressDto> res = new(result, _mapper.Map<IEnumerable<AddressDto>>(result));
             return res;
         }
@@ -33,9 +42,18 @@ namespace LogInApi.Services {
             int pageNumber,
             int pageSize,
             OrderAddressColumn orderColumn,
-            OrderType orderType
+            OrderType orderType,
+            OrderAddressColumn searchColumn,
+            string search
         ) {
-            var result = await _address.GetAllDeactivatedPaged(pageNumber, pageSize, orderColumn, orderType);
+            var result = await _address.GetAllPaged(
+                pageNumber,
+                pageSize,
+                orderColumn,
+                orderType,
+                searchColumn,
+                search
+            );
             Response<AddressDto> res = new(result, _mapper.Map<IEnumerable<AddressDto>>(result));
             return res;
         }

@@ -23,13 +23,12 @@ namespace LogInApi.Controllers {
         /// <response code="400">Returns an ERROR status due to invalid parameters</response>
         [HttpGet("Paged")]
         public async Task<ActionResult> GetCollaboratorsPaged(
-            [FromQuery] OrderCollaboratorColumn searchColumn,
-            [FromQuery] string search,
             [FromQuery] int pageNumber = 1,
             [FromQuery] int pageSize = 5,
-
             [FromQuery] OrderCollaboratorColumn orderColumn = OrderCollaboratorColumn.FullName,
-            [FromQuery] OrderType orderType = OrderType.ASC
+            [FromQuery] OrderType orderType = OrderType.ASC,
+            [FromQuery] OrderCollaboratorColumn searchColumn = OrderCollaboratorColumn.FullName,
+            [FromQuery] string search = ""
 
         ) {
             try {
@@ -53,12 +52,12 @@ namespace LogInApi.Controllers {
         /// <response code="400">Returns an ERROR status due to invalid parameters</response>
         [HttpGet("Deactivated/Paged")]
         public async Task<ActionResult> GetDeactivatedCollaboratorsPaged(
-            [FromQuery] OrderCollaboratorColumn searchColumn,
-            [FromQuery] string search,
             [FromQuery] int pageNumber = 1,
             [FromQuery] int pageSize = 5,
             [FromQuery] OrderCollaboratorColumn orderColumn = OrderCollaboratorColumn.FullName,
-            [FromQuery] OrderType orderType = OrderType.ASC
+            [FromQuery] OrderType orderType = OrderType.ASC,
+            [FromQuery] OrderCollaboratorColumn searchColumn = OrderCollaboratorColumn.FullName,
+            [FromQuery] string search = ""
         ) {
             try {
                 return Ok(await _collaboratorService.GetAllDeactivatedPaged(
@@ -136,6 +135,7 @@ namespace LogInApi.Controllers {
         /// <remarks>
         /// All fields can be edited.
         /// Cpf is required, must be valid and follow the format 000.000.000-00.
+        /// Sex field is a single uppercase letter.
         /// </remarks>
         /// <response code="200">Returns the Collaborator with OK status</response>
         /// <response code="400">Returns an ERROR status due to validation error</response>

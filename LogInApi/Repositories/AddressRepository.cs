@@ -16,21 +16,41 @@ namespace LogInApi.Repositories {
         }
 
         public async Task<IPagedList<Address>> GetAllPaged(
-            int pageNumber, int pageSize,
-            OrderAddressColumn orderColumn, OrderType orderType
+            int pageNumber,
+            int pageSize,
+            OrderAddressColumn orderColumn,
+            OrderType orderType,
+            OrderAddressColumn searchColumn,
+            string search
         ) {
+            string searchQuery;
+            if (searchColumn == OrderAddressColumn.Id) {
+                searchQuery = $"&& Id.ToString().Contains(\"{search}\")";
+            } else {
+                searchQuery = $"&& {searchColumn}.Contains(\"{search}\")";
+            }
             return await _data.Addresses
-                .Where("IsActive == true")
+                .Where($"IsActive == true {searchQuery}")
                 .OrderBy($"{orderColumn} {orderType}")
                 .ToPagedListAsync(pageNumber, pageSize);
         }
 
         public async Task<IPagedList<Address>> GetAllDeactivatedPaged(
-            int pageNumber, int pageSize,
-            OrderAddressColumn orderColumn, OrderType orderType
+            int pageNumber,
+            int pageSize,
+            OrderAddressColumn orderColumn,
+            OrderType orderType,
+            OrderAddressColumn searchColumn,
+            string search
         ) {
+            string searchQuery;
+            if (searchColumn == OrderAddressColumn.Id) {
+                searchQuery = $"&& Id.ToString().Contains(\"{search}\")";
+            } else {
+                searchQuery = $"{searchColumn}.Contains(\"{search}\")";
+            }
             return await _data.Addresses
-                .Where("IsActive == false")
+                .Where($"IsActive == true {searchQuery}")
                 .OrderBy($"{orderColumn} {orderType}")
                 .ToPagedListAsync(pageNumber, pageSize);
         }

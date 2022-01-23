@@ -10,8 +10,8 @@ namespace LogInApi.Services {
         Task Create(CreateAddressDto address);
         Task<bool> Deactivate(Guid id);
         Task<AddressDto> Get(Guid id);
-        Task<Response<AddressDto>> GetAllDeactivatedPaged(int pageNumber, int pageSize, OrderAddressColumn orderColumn, OrderType orderType);
-        Task<Response<AddressDto>> GetAllPaged(int pageNumber, int pageSize, OrderAddressColumn orderColumn, OrderType orderType);
+        Task<Response<AddressDto>> GetAllDeactivatedPaged(int pageNumber, int pageSize, OrderAddressColumn orderColumn, OrderType orderType, OrderAddressColumn searchColumn, string search);
+        Task<Response<AddressDto>> GetAllPaged(int pageNumber, int pageSize, OrderAddressColumn orderColumn, OrderType orderType, OrderAddressColumn searchColumn, string search);
         Task<AddressDto> GetDeativated(Guid id);
         Task<bool> Update(Guid id, UpdateAddressDto address);
     }

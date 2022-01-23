@@ -4,14 +4,14 @@
         <name>LogInApi</name>
     </assembly>
     <members>
-        <member name="M:LogInApi.Controllers.AddressController.GetAddressesPaged(System.Int32,System.Int32,LogInApi.Enums.OrderAddressColumn,LogInApi.Enums.OrderType)">
+        <member name="M:LogInApi.Controllers.AddressController.GetAddressesPaged(System.Int32,System.Int32,LogInApi.Enums.OrderAddressColumn,LogInApi.Enums.OrderType,LogInApi.Enums.OrderAddressColumn,System.String)">
             <summary>
             This method returns a PagedList of active Addresses
             </summary>
             <response code="200">Returns the PagedList with OK status</response>
             <response code="400">Returns an ERROR status due to invalid parameters</response>
         </member>
-        <member name="M:LogInApi.Controllers.AddressController.GetDeactivatedAddressesPaged(System.Int32,System.Int32,LogInApi.Enums.OrderAddressColumn,LogInApi.Enums.OrderType)">
+        <member name="M:LogInApi.Controllers.AddressController.GetDeactivatedAddressesPaged(System.Int32,System.Int32,LogInApi.Enums.OrderAddressColumn,LogInApi.Enums.OrderType,LogInApi.Enums.OrderAddressColumn,System.String)">
             <summary>
             This method returns a PagedList of deactivated Addresses
             </summary>
@@ -70,14 +70,14 @@
             <response code="204">Returns an OK status with no content</response>
             <response code="404">Returns an ERROR status due to Address not found</response>
         </member>
-        <member name="M:LogInApi.Controllers.CollaboratorController.GetCollaboratorsPaged(LogInApi.Enums.OrderCollaboratorColumn,System.String,System.Int32,System.Int32,LogInApi.Enums.OrderCollaboratorColumn,LogInApi.Enums.OrderType)">
+        <member name="M:LogInApi.Controllers.CollaboratorController.GetCollaboratorsPaged(System.Int32,System.Int32,LogInApi.Enums.OrderCollaboratorColumn,LogInApi.Enums.OrderType,LogInApi.Enums.OrderCollaboratorColumn,System.String)">
             <summary>
             This method returns a PagedList of active Collaborators
             </summary>
             <response code="200">Returns the PagedList with OK status</response>
             <response code="400">Returns an ERROR status due to invalid parameters</response>
         </member>
-        <member name="M:LogInApi.Controllers.CollaboratorController.GetDeactivatedCollaboratorsPaged(LogInApi.Enums.OrderCollaboratorColumn,System.String,System.Int32,System.Int32,LogInApi.Enums.OrderCollaboratorColumn,LogInApi.Enums.OrderType)">
+        <member name="M:LogInApi.Controllers.CollaboratorController.GetDeactivatedCollaboratorsPaged(System.Int32,System.Int32,LogInApi.Enums.OrderCollaboratorColumn,LogInApi.Enums.OrderType,LogInApi.Enums.OrderCollaboratorColumn,System.String)">
             <summary>
             This method returns a PagedList of deactivated Collaborators
             </summary>
@@ -119,6 +119,7 @@
             <remarks>
             All fields can be edited.
             Cpf is required, must be valid and follow the format 000.000.000-00.
+            Sex field is a single uppercase letter.
             </remarks>
             <response code="200">Returns the Collaborator with OK status</response>
             <response code="400">Returns an ERROR status due to validation error</response>
