@@ -1,5 +1,11 @@
 namespace LogInApi.Dtos {
     public class CreateAddressDto {
+        /// <summary>
+        /// string : Street name
+        /// </summary>
+        /// <example>
+        /// R. Alexandre Dumas
+        /// </example>
         public string Street { get; set; }
         /// <summary>
         /// string : House Number
