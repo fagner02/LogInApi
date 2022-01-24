@@ -50,7 +50,7 @@ namespace LogInApi.Repositories {
                 searchQuery = $"{searchColumn}.Contains(\"{search}\")";
             }
             return await _data.Addresses
-                .Where($"IsActive == true {searchQuery}")
+                .Where($"IsActive == false {searchQuery}")
                 .OrderBy($"{orderColumn} {orderType}")
                 .ToPagedListAsync(pageNumber, pageSize);
         }
