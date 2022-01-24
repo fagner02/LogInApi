@@ -47,7 +47,7 @@ namespace LogInApi.Repositories {
             if (searchColumn == OrderAddressColumn.Id) {
                 searchQuery = $"&& Id.ToString().Contains(\"{search}\")";
             } else {
-                searchQuery = $"{searchColumn}.Contains(\"{search}\")";
+                searchQuery = $"&& {searchColumn}.Contains(\"{search}\")";
             }
             return await _data.Addresses
                 .Where($"IsActive == false {searchQuery}")
