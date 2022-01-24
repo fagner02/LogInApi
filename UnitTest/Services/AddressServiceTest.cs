@@ -368,12 +368,14 @@ namespace UnitTest {
         }
 
         [Theory]
-        [InlineData(1, 2, OrderAddressColumn.Id, OrderType.ASC)]
+        [InlineData(1, 2, OrderAddressColumn.Id, OrderType.ASC, OrderAddressColumn.Street, "")]
         public void GetAllAddresssPaged(
             int pageNumber,
             int pageSize,
             OrderAddressColumn orderColumn,
-            OrderType orderType
+            OrderType orderType,
+            OrderAddressColumn searchColumn,
+            string searchValue
         ) {
             // Arrange
             IEnumerable<Address> collaborators = new List<Address>() {
@@ -433,14 +435,26 @@ namespace UnitTest {
 
             // Act
             _address
-                .Setup(x => x.GetAllPaged(pageNumber, pageSize, orderColumn, orderType))
+                .Setup(x => x.GetAllPaged(
+                    pageNumber,
+                    pageSize,
+                    orderColumn,
+                    orderType,
+                    searchColumn,
+                    searchValue))
                 .Returns(Task.FromResult(collaborators.ToPagedList()));
 
             _mapper
                 .Setup(x => x.Map<IEnumerable<AddressDto>>(It.IsAny<Address>()))
                 .Returns(collaboratorDtos);
 
-            var result = _addressService.GetAllPaged(pageNumber, pageSize, orderColumn, orderType);
+            var result = _addressService.GetAllPaged(
+                pageNumber,
+                pageSize,
+                orderColumn,
+                orderType,
+                searchColumn,
+                searchValue);
 
             // Assert
             Assert.NotNull(result.Result);

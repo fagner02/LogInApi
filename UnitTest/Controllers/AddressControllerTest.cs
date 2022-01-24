@@ -31,10 +31,13 @@ namespace UnitTest {
 
             // Act
             _addressService.Setup(x =>
-             x.GetAllPaged(It.IsAny<int>(),
+             x.GetAllPaged(
+                It.IsAny<int>(),
                 It.IsAny<int>(),
                 It.IsAny<OrderAddressColumn>(),
-                It.IsAny<OrderType>()))
+                It.IsAny<OrderType>(),
+                It.IsAny<OrderAddressColumn>(),
+                It.IsAny<string>()))
                 .Returns(
                     Task.FromResult(new Response<AddressDto>(
                             addressDtos.ToPagedList(1, 1),
@@ -60,10 +63,13 @@ namespace UnitTest {
 
             // Act
             _addressService.Setup(x =>
-             x.GetAllDeactivatedPaged(It.IsAny<int>(),
+             x.GetAllDeactivatedPaged(
+                It.IsAny<int>(),
                 It.IsAny<int>(),
                 It.IsAny<OrderAddressColumn>(),
-                It.IsAny<OrderType>()))
+                It.IsAny<OrderType>(),
+                It.IsAny<OrderAddressColumn>(),
+                It.IsAny<string>()))
                 .Returns(
                     Task.FromResult(new Response<AddressDto>(
                             addressDtos.ToPagedList(1, 1),
@@ -152,8 +158,6 @@ namespace UnitTest {
                 .Returns(Task.FromResult(false));
 
             var response = _controller.Deactivate(It.IsAny<Guid>());
-
-
 
             // Assert
             Assert.IsType<NotFoundResult>(response.Result.Result);

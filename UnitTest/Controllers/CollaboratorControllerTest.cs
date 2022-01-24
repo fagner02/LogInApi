@@ -45,12 +45,12 @@ namespace UnitTest {
                         )));
 
             var response = _controller.GetCollaboratorsPaged(
-                It.IsAny<OrderCollaboratorColumn>(),
-                It.IsAny<string>(),
                 It.IsAny<int>(),
                 It.IsAny<int>(),
                 It.IsAny<OrderCollaboratorColumn>(),
-                It.IsAny<OrderType>()
+                It.IsAny<OrderType>(),
+                It.IsAny<OrderCollaboratorColumn>(),
+                It.IsAny<string>()
             );
 
             // Assert
@@ -71,12 +71,12 @@ namespace UnitTest {
                 .Returns(It.IsAny<Task<Response<CollaboratorDto>>>());
 
             var response = _controller.GetCollaboratorsPaged(
-                It.IsAny<OrderCollaboratorColumn>(),
-                It.IsAny<string>(),
                 It.IsAny<int>(),
                 It.IsAny<int>(),
                 It.IsAny<OrderCollaboratorColumn>(),
-                It.IsAny<OrderType>()
+                It.IsAny<OrderType>(),
+                It.IsAny<OrderCollaboratorColumn>(),
+                It.IsAny<string>()
             );
 
             // Assert
@@ -105,12 +105,12 @@ namespace UnitTest {
                         )));
 
             var response = _controller.GetDeactivatedCollaboratorsPaged(
-                It.IsAny<OrderCollaboratorColumn>(),
-                It.IsAny<string>(),
                 It.IsAny<int>(),
                 It.IsAny<int>(),
                 It.IsAny<OrderCollaboratorColumn>(),
-                It.IsAny<OrderType>()
+                It.IsAny<OrderType>(),
+                It.IsAny<OrderCollaboratorColumn>(),
+                It.IsAny<string>()
             );
 
             // Assert

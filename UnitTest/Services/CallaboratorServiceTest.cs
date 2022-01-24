@@ -129,7 +129,7 @@ namespace UnitTest {
             _mapper.Setup(x => x.Map<Collaborator>(It.IsAny<CreateCollaboratorDto>())).Returns(collaborator);
             _mapper.Setup(x => x.Map<CollaboratorDto>(It.IsAny<Collaborator>())).Returns(collaboratorDto);
 
-
+            // Assert
             var exception = Assert.ThrowsAsync<Exception>(async () => {
                 var result = await _collaboratorService.Create(createCollaboratorDto);
             });
@@ -185,7 +185,7 @@ namespace UnitTest {
             _mapper.Setup(x => x.Map<Collaborator>(It.IsAny<CreateCollaboratorDto>())).Returns(collaborator);
             _mapper.Setup(x => x.Map<CollaboratorDto>(It.IsAny<Collaborator>())).Returns(collaboratorDto);
 
-
+            // Assert
             var exception = Assert.ThrowsAsync<Exception>(async () => {
                 var result = await _collaboratorService.Create(createCollaboratorDto);
             });
@@ -241,7 +241,7 @@ namespace UnitTest {
             _mapper.Setup(x => x.Map<Collaborator>(It.IsAny<CreateCollaboratorDto>())).Returns(collaborator);
             _mapper.Setup(x => x.Map<CollaboratorDto>(It.IsAny<Collaborator>())).Returns(collaboratorDto);
 
-
+            // Assert
             var exception = Assert.ThrowsAsync<Exception>(async () => {
                 var result = await _collaboratorService.Create(createCollaboratorDto);
             });
@@ -297,7 +297,7 @@ namespace UnitTest {
             _mapper.Setup(x => x.Map<Collaborator>(It.IsAny<CreateCollaboratorDto>())).Returns(collaborator);
             _mapper.Setup(x => x.Map<CollaboratorDto>(It.IsAny<Collaborator>())).Returns(collaboratorDto);
 
-
+            // Assert
             var exception = Assert.ThrowsAsync<Exception>(async () => {
                 var result = await _collaboratorService.Create(createCollaboratorDto);
             });
