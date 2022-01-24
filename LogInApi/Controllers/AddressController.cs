@@ -72,7 +72,7 @@ namespace LogInApi.Controllers {
         /// <response code="200">Returns the Address with OK status</response>
         /// <response code="404">Returns an ERROR status due to Address not found</response>
         [HttpGet("{id}")]
-        public async Task<ActionResult<AddressDto>> GetAddress(Guid id) {
+        public async Task<ActionResult<AddressDto>> GetAddress([FromRoute] Guid id) {
             AddressDto address = await _addressService.Get(id);
             if (address == null) {
                 return NotFound();
@@ -86,7 +86,7 @@ namespace LogInApi.Controllers {
         /// <response code="200">Returns the Collaborator with OK status</response>
         /// <response code="404">Returns an ERROR status due to Address not found</response>
         [HttpGet("Deactivated/{id}")]
-        public async Task<ActionResult<AddressDto>> GetDeactivatedAddress(Guid id) {
+        public async Task<ActionResult<AddressDto>> GetDeactivatedAddress([FromRoute] Guid id) {
             AddressDto address = await _addressService.GetDeativated(id);
             if (address == null) {
                 return NotFound();
@@ -100,7 +100,7 @@ namespace LogInApi.Controllers {
         /// <response code="200">Returns the Address with OK status</response>
         /// <response code="400">Returns an ERROR status due to validation error</response>
         [HttpPost]
-        public async Task<ActionResult<CreateAddressDto>> Post(CreateAddressDto model) {
+        public async Task<ActionResult<CreateAddressDto>> Post([FromBody] CreateAddressDto model) {
             try {
                 await _addressService.Create(model);
             } catch (Exception e) {
@@ -123,7 +123,7 @@ namespace LogInApi.Controllers {
         /// <response code="400">Returns an ERROR status due to validation error</response>
         /// <response code="404">Returns an ERROR status due to Address not found</response>
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, UpdateAddressDto model) {
+        public async Task<IActionResult> Put([FromRoute] Guid id, [FromBody] UpdateAddressDto model) {
             try {
                 if (!await _addressService.Update(id, model)) {
                     return NotFound();
@@ -147,7 +147,7 @@ namespace LogInApi.Controllers {
         /// <response code="204">Returns an OK status with no content</response>
         /// <response code="404">Returns an ERROR status due to Address not found</response>
         [HttpDelete("{id}")]
-        public async Task<ActionResult<AddressDto>> Deactivate(Guid id) {
+        public async Task<ActionResult<AddressDto>> Deactivate([FromRoute] Guid id) {
             if (!await _addressService.Deactivate(id)) {
                 return NotFound();
             }
@@ -163,7 +163,7 @@ namespace LogInApi.Controllers {
         /// <response code="204">Returns an OK status with no content</response>
         /// <response code="404">Returns an ERROR status due to Address not found</response>
         [HttpPut("Deactivated/{id}")]
-        public async Task<ActionResult<AddressDto>> Activate(Guid id) {
+        public async Task<ActionResult<AddressDto>> Activate([FromRoute] Guid id) {
             if (!await _addressService.Activate(id)) {
                 return NotFound();
             }

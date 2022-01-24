@@ -204,6 +204,14 @@
             Ceará
             </example>
         </member>
+        <member name="P:LogInApi.Dtos.CreateAddressDto.Street">
+            <summary>
+            string : Street name
+            </summary>
+            <example>
+            R. Alexandre Dumas
+            </example>
+        </member>
         <member name="P:LogInApi.Dtos.CreateAddressDto.Number">
             <summary>
             string : House Number
@@ -485,7 +493,7 @@
             string : Collaborator's Phone.
             </summary>
             <example>
-            00 00000000
+            00 000000000
             </example>
         </member>
         <member name="P:LogInApi.Models.Collaborator.AddressId">

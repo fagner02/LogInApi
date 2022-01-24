@@ -79,7 +79,7 @@ namespace LogInApi.Controllers {
         /// <response code="200">Returns the Collaborator with OK status</response>
         /// <response code="404">Returns an ERROR status due to collaborator not found</response>
         [HttpGet("ByCpf/{cpf}")]
-        public async Task<ActionResult<CollaboratorDto>> Get(string cpf) {
+        public async Task<ActionResult<CollaboratorDto>> Get([FromRoute] string cpf) {
             CollaboratorDto result = await _collaboratorService.GetByCpf(cpf);
             if (result == null) {
                 return NotFound();
@@ -93,7 +93,7 @@ namespace LogInApi.Controllers {
         /// <response code="200">Returns the Collaborator with OK status</response>
         /// <response code="404">Returns an ERROR status due to collaborator not found</response>
         [HttpGet("Deactivated/ByCpf/{cpf}")]
-        public async Task<ActionResult<CollaboratorDto>> GetDeactivated(string cpf) {
+        public async Task<ActionResult<CollaboratorDto>> GetDeactivated([FromRoute] string cpf) {
             CollaboratorDto result = await _collaboratorService.GetByCpfDeactivated(cpf);
             if (result == null) {
                 return NotFound();
@@ -107,7 +107,7 @@ namespace LogInApi.Controllers {
         /// <response code="200">Returns the Collaborator with OK status</response>
         /// <response code="404">Returns an ERROR status due to collaborator not found</response>
         [HttpGet("ByName/{fullName}")]
-        public async Task<ActionResult<CollaboratorDto>> GetByName(string fullName) {
+        public async Task<ActionResult<CollaboratorDto>> GetByName([FromRoute] string fullName) {
             CollaboratorDto result = await _collaboratorService.GetByName(fullName);
             if (result == null) {
                 return NotFound();
@@ -121,7 +121,7 @@ namespace LogInApi.Controllers {
         /// <response code="200">Returns the Collaborator with OK status</response>
         /// <response code="404">Returns an ERROR status due to collaborator not found</response>
         [HttpGet("Deactivated/ByName/{fullName}")]
-        public async Task<ActionResult<CollaboratorDto>> GetByNameDeactivated(string fullName) {
+        public async Task<ActionResult<CollaboratorDto>> GetByNameDeactivated([FromRoute] string fullName) {
             CollaboratorDto result = await _collaboratorService.GetByNameDeactivated(fullName);
             if (result == null) {
                 return NotFound();
@@ -164,7 +164,7 @@ namespace LogInApi.Controllers {
         /// <response code="400">Returns an ERROR status due to validation error</response>
         /// <response code="404">Returns an ERROR status due to collaborator not found</response>
         [HttpPut("{cpf}")]
-        public async Task<IActionResult> Put(string cpf, UpdateCollaboratorDto collaborator) {
+        public async Task<IActionResult> Put([FromRoute] string cpf, [FromBody] UpdateCollaboratorDto collaborator) {
             try {
                 if (!await _collaboratorService.Update(cpf, collaborator)) {
                     return NotFound();
@@ -189,7 +189,7 @@ namespace LogInApi.Controllers {
         /// <response code="204">Returns an OK status with no content</response>
         /// <response code="404">Returns an ERROR status due to collaborator not found</response>
         [HttpDelete("{cpf}")]
-        public async Task<IActionResult> Deactivate(string cpf) {
+        public async Task<IActionResult> Deactivate([FromRoute] string cpf) {
             if (!await _collaboratorService.Deactivate(cpf)) {
                 return NotFound();
             }
@@ -206,7 +206,7 @@ namespace LogInApi.Controllers {
         /// <response code="204">Returns an OK status with no content</response>
         /// <response code="404">Returns an ERROR status due to collaborator not found</response>
         [HttpPut("Deactivated/{cpf}")]
-        public async Task<IActionResult> Activate(string cpf) {
+        public async Task<IActionResult> Activate([FromRoute] string cpf) {
             if (!await _collaboratorService.Activate(cpf)) {
                 return NotFound();
             }

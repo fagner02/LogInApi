@@ -204,6 +204,14 @@
             Ceará
             </example>
         </member>
+        <member name="P:LogInApi.Dtos.CreateAddressDto.Street">
+            <summary>
+            string : Street name
+            </summary>
+            <example>
+            R. Alexandre Dumas
+            </example>
+        </member>
         <member name="P:LogInApi.Dtos.CreateAddressDto.Number">
             <summary>
             string : House Number
