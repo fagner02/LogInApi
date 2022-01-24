@@ -46,7 +46,7 @@ namespace LogInApi.Services {
             OrderAddressColumn searchColumn,
             string search
         ) {
-            var result = await _address.GetAllPaged(
+            var result = await _address.GetAllDeactivatedPaged(
                 pageNumber,
                 pageSize,
                 orderColumn,

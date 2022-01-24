@@ -56,7 +56,7 @@ namespace LogInApi.Controllers {
             [FromQuery] OrderAddressColumn searchColumn = OrderAddressColumn.Street,
             [FromQuery] string search = ""
         ) {
-            return Ok(await _addressService.GetAllPaged(
+            return Ok(await _addressService.GetAllDeactivatedPaged(
                 pageNumber,
                 pageSize,
                 orderColumn,
